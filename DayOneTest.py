@@ -2,7 +2,6 @@ import unittest
 
 from DayOne import part_one, part_two
 
-
 class DayOnePartOneCase(unittest.TestCase):
     def test_given_test_case(self):
         input = [
