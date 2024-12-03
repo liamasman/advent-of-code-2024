@@ -1,6 +1,7 @@
 import unittest
 
-from DayOne import part_one, part_two
+from src.day_one import part_one, part_two
+
 
 class DayOnePartOneCase(unittest.TestCase):
     def test_given_test_case(self):
@@ -16,8 +17,15 @@ class DayOnePartOneCase(unittest.TestCase):
     def test_when_distance_is_negative(self):
         input = [
             "3   4",
-            "4   3"]
+            "3   4"]
         self.assertEqual(2, part_one(input))
+
+    def test_sorting_the_lists_gives_correct_result(self):
+        input = [
+            "3   4",
+            "4   3"]
+        self.assertEqual(0, part_one(input))
+
 
 class DayOnePartTwoCase(unittest.TestCase):
     def test_given_test_case(self):
@@ -65,6 +73,7 @@ class DayOnePartTwoCase(unittest.TestCase):
             "5   4",
             "6   4"]
         self.assertEqual(14, part_two(input))
+
 
 if __name__ == '__main__':
     unittest.main()

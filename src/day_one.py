@@ -1,30 +1,33 @@
-def part_one(lines):
-    left, right = create_lists(lines)
+def part_one(input_lines):
+    left, right = create_lists(input_lines)
     return find_distance(left, right)
 
-def part_two(lines):
-    left, right = create_lists(lines)
+
+def part_two(input_lines):
+    left, right = create_lists(input_lines)
     return find_similarity(left, right)
 
-def create_lists(lines):
+
+def create_lists(input_lines):
     left = []
     right = []
 
-    for line in lines:
+    for line in input_lines:
         line = line.split(" ")
         left.append(int(line[0]))
         right.append(int(line[-1]))
 
     return left, right
 
+
 def find_distance(left, right):
     left.sort()
     right.sort()
 
-    total = 0;
+    total = 0
 
-    for i in range(0, len(left)):
-        diff = right[i] - left[i]
+    for left_item, right_item in zip(left, right):
+        diff = left_item - right_item
         total += abs(diff)
 
     return total
@@ -50,12 +53,13 @@ def find_similarity(left, right):
             similarity += (value * occurrences[value])
     return similarity
 
+
 if __name__ == "__main__":
-    input = open("resources/Day1Input.txt", "r")
-    lines = input.readlines()
+    with open("resources/Day1Input.txt", "r", encoding="UTF-8") as file:
+        lines = file.readlines()
 
     part_one = part_one(lines)
     part_two = part_two(lines)
 
-    print("Part One: {}".format(part_one))
-    print("Part Two: {}".format(part_two))
+    print(f"Part One: {part_one}")
+    print(f"Part Two: {part_two}")

@@ -1,6 +1,6 @@
 import unittest
 
-from DayTwo import is_safe_part_one, is_safe_part_two
+from src.day_two import is_safe_part_one, is_safe_part_two
 
 
 class PartOne(unittest.TestCase):
@@ -39,6 +39,7 @@ class PartOne(unittest.TestCase):
     def test_single_line_up_and_down(self):
         input = ["1 2 3 2 1"]
         self.assertEqual(0, is_safe_part_one(input))
+
 
 class PartTwo(unittest.TestCase):
     def test_given_case(self):
