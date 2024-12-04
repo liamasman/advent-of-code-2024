@@ -55,7 +55,7 @@ def find_similarity(left, right):
 
 
 if __name__ == "__main__":
-    with open("resources/Day1Input.txt", "r", encoding="UTF-8") as file:
+    with open("../resources/Day1Input.txt", "r", encoding="UTF-8") as file:
         lines = file.readlines()
 
     part_one = part_one(lines)

@@ -60,7 +60,7 @@ def is_line_safe_part_two(line):
 
 
 if "__main__" == __name__:
-    with open("resources/Day2Input.txt", "r", encoding="UTF-8") as file:
+    with open("../resources/Day2Input.txt", "r", encoding="UTF-8") as file:
         lines = file.readlines()
 
     safe1 = is_safe_part_one(lines)

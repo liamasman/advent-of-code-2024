@@ -24,7 +24,7 @@ def day_three_part_two(input):
 
 
 if __name__ == "__main__":
-    with open("resources/Day3Input.txt", "r", encoding="UTF-8") as file:
+    with open("../resources/Day3Input.txt", "r", encoding="UTF-8") as file:
         input = file.read()
 
     part_one_result = day_three_part_one(input)
