@@ -1,6 +1,6 @@
 import pytest
 
-from src.day_four import part_one
+from src.day_four import part_one, part_two, rotate_90, create_rotations
 
 class TestPartOne:
     def test_given_testcase(self):
@@ -460,3 +460,106 @@ X......X...A.
 ..........M..
 .........X...."""
         assert 4 == part_one(input)
+
+class TestPartTwo:
+    def test_given_testcase(self):
+        input = """MMMSXXMASM
+MSAMXMSMSA
+AMXSXMAAMM
+MSAMASMSMX
+XMASAMXAMM
+XXAMMXXAMA
+SMSMSASXSS
+SAXAMASAAA
+MAMMMXMMMM
+MXMXAXMASX"""
+        assert 9 == part_two(input)
+
+    def test_rotation_one_only(self):
+        input = """M.S
+.A.
+M.S"""
+        assert 1 == part_two(input)
+
+    def test_rotation_two_only(self):
+        input = """M.M
+.A.
+S.S"""
+        assert 1 == part_two(input)
+
+    def test_rotation_three_only(self):
+        input = """S.M
+.A.
+S.M"""
+        assert 1 == part_two(input)
+
+    def test_rotation_four_only(self):
+        input = """S.S
+.A.
+M.M"""
+        assert 1 == part_two(input)
+
+    def test_overlap(self):
+        input = """M.S.M
+.A.A.
+M.S.M
+S.S.S
+.A.A.
+M.M.M
+.A.A.
+S.S.S"""
+        assert 6 == part_two(input)
+
+    def test_intertwined(self):
+        input = """
+M.S.M.
+.AMAM.
+M.SAM.
+..S.S."""
+        assert 3 == part_two(input)
+
+
+class TestRotations:
+
+    def test_rotate_90(self):
+        input = [
+            ['M', None, 'S'],
+            [None, 'A', None],
+            ['M', None, 'S']
+        ]
+        expected = [
+            ['M', None, 'M'],
+            [None, 'A', None],
+            ['S', None, 'S']
+        ]
+        assert expected == rotate_90(input)
+
+    def test_create_rotations(self):
+        input = [
+            ['M', None, 'S'],
+            [None, 'A', None],
+            ['M', None, 'S']
+        ]
+        expected = [
+            [
+                ['M', None, 'S'],
+                [None, 'A', None],
+                ['M', None, 'S']
+            ],
+            [
+                ['M', None, 'M'],
+                [None, 'A', None],
+                ['S', None, 'S']
+            ],
+            [
+                ['S', None, 'M'],
+                [None, 'A', None],
+                ['S', None, 'M']
+            ],
+            [
+                ['S', None, 'S'],
+                [None, 'A', None],
+                ['M', None, 'M']
+            ]
+        ]
+        assert expected == create_rotations(input)
