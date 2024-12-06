@@ -1,4 +1,4 @@
-import copy
+import time
 from enum import Enum, auto
 
 
@@ -154,4 +154,8 @@ if __name__ == "__main__":
         raw_input = f.read()
 
     print(f"part one: {part_one(raw_input)}")
-    print(f"part two: {part_two(raw_input)}")
+
+    start_time = time.time()
+    part_two_result = part_two(raw_input)
+    end_time = time.time()
+    print(f"part two: {part_two_result} ({end_time - start_time} seconds)")
