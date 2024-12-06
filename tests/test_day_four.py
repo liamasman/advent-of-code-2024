@@ -1,5 +1,3 @@
-import pytest
-
 from src.day_four import part_one, part_two, rotate_90, create_rotations
 
 class TestPartOne:
