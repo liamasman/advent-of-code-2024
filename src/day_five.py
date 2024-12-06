@@ -1,3 +1,5 @@
+from functools import cmp_to_key
+
 def part_one(raw_input):
     rules, updates = parse_input(raw_input)
     return sum([get_middle_number(update) for update in get_valid_updates(rules, updates)])
@@ -39,8 +41,38 @@ def get_valid_updates(rules, updates):
             yield update
 
 
+def get_invalid_updates(must_not_occur_after_rules, updates):
+    for update in updates:
+        if not is_valid_update(must_not_occur_after_rules, update):
+            yield update
+
+
+def create_sort_function(must_not_occur_after_rules):
+    def sort_function(a, b):
+        if must_not_occur_after_rules.get(a) is not None and b in must_not_occur_after_rules[a]:
+            return 1
+        elif must_not_occur_after_rules.get(b) is not None and a in must_not_occur_after_rules[b]:
+            return -1
+        return 0
+
+    return cmp_to_key(sort_function)
+
+
+def correct_invalid_update(invalid_update, sort_function):
+    invalid_update.sort(key=sort_function)
+    return invalid_update
+
+
+def correct_invalid_updates(must_not_occur_after_rules, updates):
+    sort_function = create_sort_function(must_not_occur_after_rules)
+    for invalid_update in get_invalid_updates(must_not_occur_after_rules, updates):
+        yield correct_invalid_update(invalid_update, sort_function)
+
+
 def part_two(raw_input):
-    pass
+    rules, updates = parse_input(raw_input)
+    rules_map = process_rules(rules)
+    return sum([get_middle_number(update) for update in correct_invalid_updates(rules_map, updates)])
 
 
 if __name__ == "__main__":
