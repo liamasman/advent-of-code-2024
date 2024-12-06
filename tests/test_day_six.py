@@ -1,4 +1,4 @@
-from day_six import (part_one, part_two, EMPTY_SPACE, SOLID_OBJECT, Direction,
+from day_six import (part_one, part_two, CellType, Direction,
                      load_grid, \
                      run_step, is_guard_in_a_loop)
 
@@ -9,9 +9,9 @@ def test_load_grid():
 .#..^"""
     grid, position, direction = load_grid(input)
     expected_grid = [
-        [EMPTY_SPACE, EMPTY_SPACE, SOLID_OBJECT, EMPTY_SPACE, EMPTY_SPACE],
-        [SOLID_OBJECT, EMPTY_SPACE, SOLID_OBJECT, EMPTY_SPACE, EMPTY_SPACE],
-        [EMPTY_SPACE, SOLID_OBJECT, EMPTY_SPACE, EMPTY_SPACE, EMPTY_SPACE]
+        [CellType.EMPTY_SPACE, CellType.EMPTY_SPACE, CellType.SOLID_OBJECT, CellType.EMPTY_SPACE, CellType.EMPTY_SPACE],
+        [CellType.SOLID_OBJECT, CellType.EMPTY_SPACE, CellType.SOLID_OBJECT, CellType.EMPTY_SPACE, CellType.EMPTY_SPACE],
+        [CellType.EMPTY_SPACE, CellType.SOLID_OBJECT, CellType.EMPTY_SPACE, CellType.EMPTY_SPACE, CellType.EMPTY_SPACE]
     ]
     assert grid == expected_grid
     assert position == (2, 4)
@@ -22,12 +22,12 @@ class TestRunStep:
     class TestDirectionUp:
         def test_step_direction_up_to_empty_space(self):
             grid = [
-                [EMPTY_SPACE, EMPTY_SPACE, SOLID_OBJECT, EMPTY_SPACE,
-                 EMPTY_SPACE],
-                [SOLID_OBJECT, EMPTY_SPACE, SOLID_OBJECT, EMPTY_SPACE,
-                 EMPTY_SPACE],
-                [EMPTY_SPACE, SOLID_OBJECT, EMPTY_SPACE, EMPTY_SPACE,
-                 EMPTY_SPACE]
+                [CellType.EMPTY_SPACE, CellType.EMPTY_SPACE, CellType.SOLID_OBJECT, CellType.EMPTY_SPACE,
+                 CellType.EMPTY_SPACE],
+                [CellType.SOLID_OBJECT, CellType.EMPTY_SPACE, CellType.SOLID_OBJECT, CellType.EMPTY_SPACE,
+                 CellType.EMPTY_SPACE],
+                [CellType.EMPTY_SPACE, CellType.SOLID_OBJECT, CellType.EMPTY_SPACE, CellType.EMPTY_SPACE,
+                 CellType.EMPTY_SPACE]
             ]
             direction = Direction.UP
             position = (1, 1)
@@ -39,12 +39,12 @@ class TestRunStep:
 
         def test_step_direction_up_to_solid_object_then_empty_space(self):
             grid = [
-                [EMPTY_SPACE, EMPTY_SPACE, SOLID_OBJECT, EMPTY_SPACE,
-                 EMPTY_SPACE],
-                [SOLID_OBJECT, EMPTY_SPACE, SOLID_OBJECT, EMPTY_SPACE,
-                 EMPTY_SPACE],
-                [EMPTY_SPACE, EMPTY_SPACE, EMPTY_SPACE, EMPTY_SPACE,
-                 EMPTY_SPACE]
+                [CellType.EMPTY_SPACE, CellType.EMPTY_SPACE, CellType.SOLID_OBJECT, CellType.EMPTY_SPACE,
+                 CellType.EMPTY_SPACE],
+                [CellType.SOLID_OBJECT, CellType.EMPTY_SPACE, CellType.SOLID_OBJECT, CellType.EMPTY_SPACE,
+                 CellType.EMPTY_SPACE],
+                [CellType.EMPTY_SPACE, CellType.EMPTY_SPACE, CellType.EMPTY_SPACE, CellType.EMPTY_SPACE,
+                 CellType.EMPTY_SPACE]
             ]
             direction = Direction.UP
             position = (2, 0)
@@ -56,12 +56,12 @@ class TestRunStep:
 
         def test_step_direction_up_to_solid_object_then_out_of_grid(self):
             grid = [
-                [EMPTY_SPACE, EMPTY_SPACE, SOLID_OBJECT, EMPTY_SPACE,
-                 SOLID_OBJECT],
-                [SOLID_OBJECT, EMPTY_SPACE, SOLID_OBJECT, EMPTY_SPACE,
-                 EMPTY_SPACE],
-                [SOLID_OBJECT, EMPTY_SPACE, EMPTY_SPACE, EMPTY_SPACE,
-                 EMPTY_SPACE]
+                [CellType.EMPTY_SPACE, CellType.EMPTY_SPACE, CellType.SOLID_OBJECT, CellType.EMPTY_SPACE,
+                 CellType.SOLID_OBJECT],
+                [CellType.SOLID_OBJECT, CellType.EMPTY_SPACE, CellType.SOLID_OBJECT, CellType.EMPTY_SPACE,
+                 CellType.EMPTY_SPACE],
+                [CellType.SOLID_OBJECT, CellType.EMPTY_SPACE, CellType.EMPTY_SPACE, CellType.EMPTY_SPACE,
+                 CellType.EMPTY_SPACE]
             ]
             direction = Direction.UP
             position = (1, 4)
@@ -74,12 +74,12 @@ class TestRunStep:
         def test_step_direction_up_to_solid_object_twice_turns_backwards(
                 self):
             grid = [
-                [EMPTY_SPACE, EMPTY_SPACE, SOLID_OBJECT, EMPTY_SPACE,
-                 EMPTY_SPACE],
-                [SOLID_OBJECT, EMPTY_SPACE, EMPTY_SPACE, SOLID_OBJECT,
-                 EMPTY_SPACE],
-                [EMPTY_SPACE, SOLID_OBJECT, EMPTY_SPACE, EMPTY_SPACE,
-                 EMPTY_SPACE]
+                [CellType.EMPTY_SPACE, CellType.EMPTY_SPACE, CellType.SOLID_OBJECT, CellType.EMPTY_SPACE,
+                 CellType.EMPTY_SPACE],
+                [CellType.SOLID_OBJECT, CellType.EMPTY_SPACE, CellType.EMPTY_SPACE, CellType.SOLID_OBJECT,
+                 CellType.EMPTY_SPACE],
+                [CellType.EMPTY_SPACE, CellType.SOLID_OBJECT, CellType.EMPTY_SPACE, CellType.EMPTY_SPACE,
+                 CellType.EMPTY_SPACE]
             ]
             direction = Direction.UP
             position = (1, 2)
@@ -91,12 +91,12 @@ class TestRunStep:
 
         def test_step_direction_up_to_solid_oject_twice_out_of_grid(self):
             grid = [
-                [EMPTY_SPACE, EMPTY_SPACE, SOLID_OBJECT, EMPTY_SPACE,
-                 EMPTY_SPACE],
-                [SOLID_OBJECT, EMPTY_SPACE, EMPTY_SPACE, SOLID_OBJECT,
-                 EMPTY_SPACE],
-                [EMPTY_SPACE, SOLID_OBJECT, EMPTY_SPACE, EMPTY_SPACE,
-                 EMPTY_SPACE]
+                [CellType.EMPTY_SPACE, CellType.EMPTY_SPACE, CellType.SOLID_OBJECT, CellType.EMPTY_SPACE,
+                 CellType.EMPTY_SPACE],
+                [CellType.SOLID_OBJECT, CellType.EMPTY_SPACE, CellType.EMPTY_SPACE, CellType.SOLID_OBJECT,
+                 CellType.EMPTY_SPACE],
+                [CellType.EMPTY_SPACE, CellType.SOLID_OBJECT, CellType.EMPTY_SPACE, CellType.EMPTY_SPACE,
+                 CellType.EMPTY_SPACE]
             ]
             direction = Direction.UP
             position = (2, 0)
@@ -109,12 +109,12 @@ class TestRunStep:
         def test_step_direction_up_to_solid_object_three_times_turns_left(
                 self):
             grid = [
-                [EMPTY_SPACE, EMPTY_SPACE, SOLID_OBJECT, EMPTY_SPACE,
-                 EMPTY_SPACE],
-                [SOLID_OBJECT, EMPTY_SPACE, EMPTY_SPACE, SOLID_OBJECT,
-                 EMPTY_SPACE],
-                [EMPTY_SPACE, SOLID_OBJECT, SOLID_OBJECT, EMPTY_SPACE,
-                 EMPTY_SPACE]
+                [CellType.EMPTY_SPACE, CellType.EMPTY_SPACE, CellType.SOLID_OBJECT, CellType.EMPTY_SPACE,
+                 CellType.EMPTY_SPACE],
+                [CellType.SOLID_OBJECT, CellType.EMPTY_SPACE, CellType.EMPTY_SPACE, CellType.SOLID_OBJECT,
+                 CellType.EMPTY_SPACE],
+                [CellType.EMPTY_SPACE, CellType.SOLID_OBJECT, CellType.SOLID_OBJECT, CellType.EMPTY_SPACE,
+                 CellType.EMPTY_SPACE]
             ]
             direction = Direction.UP
             position = (1, 2)
@@ -127,12 +127,12 @@ class TestRunStep:
         def test_step_direction_up_to_solid_object_three_times_out_of_grid(
                 self):
             grid = [
-                [SOLID_OBJECT, EMPTY_SPACE, SOLID_OBJECT, EMPTY_SPACE,
-                 EMPTY_SPACE],
-                [EMPTY_SPACE, SOLID_OBJECT, EMPTY_SPACE, SOLID_OBJECT,
-                 EMPTY_SPACE],
-                [SOLID_OBJECT, SOLID_OBJECT, SOLID_OBJECT, EMPTY_SPACE,
-                 EMPTY_SPACE]
+                [CellType.SOLID_OBJECT, CellType.EMPTY_SPACE, CellType.SOLID_OBJECT, CellType.EMPTY_SPACE,
+                 CellType.EMPTY_SPACE],
+                [CellType.EMPTY_SPACE, CellType.SOLID_OBJECT, CellType.EMPTY_SPACE, CellType.SOLID_OBJECT,
+                 CellType.EMPTY_SPACE],
+                [CellType.SOLID_OBJECT, CellType.SOLID_OBJECT, CellType.SOLID_OBJECT, CellType.EMPTY_SPACE,
+                 CellType.EMPTY_SPACE]
             ]
             direction = Direction.UP
             position = (1, 0)
@@ -144,12 +144,12 @@ class TestRunStep:
 
         def test_step_direction_up_out_of_grid(self):
             grid = [
-                [EMPTY_SPACE, EMPTY_SPACE, SOLID_OBJECT, EMPTY_SPACE,
-                 EMPTY_SPACE],
-                [SOLID_OBJECT, EMPTY_SPACE, SOLID_OBJECT, EMPTY_SPACE,
-                 EMPTY_SPACE],
-                [EMPTY_SPACE, EMPTY_SPACE, EMPTY_SPACE, EMPTY_SPACE,
-                 EMPTY_SPACE]
+                [CellType.EMPTY_SPACE, CellType.EMPTY_SPACE, CellType.SOLID_OBJECT, CellType.EMPTY_SPACE,
+                 CellType.EMPTY_SPACE],
+                [CellType.SOLID_OBJECT, CellType.EMPTY_SPACE, CellType.SOLID_OBJECT, CellType.EMPTY_SPACE,
+                 CellType.EMPTY_SPACE],
+                [CellType.EMPTY_SPACE, CellType.EMPTY_SPACE, CellType.EMPTY_SPACE, CellType.EMPTY_SPACE,
+                 CellType.EMPTY_SPACE]
             ]
             direction = Direction.UP
             position = (0, 1)
@@ -162,12 +162,12 @@ class TestRunStep:
     class TestDirectionRight:
         def test_step_direction_right_to_empty_space(self):
             grid = [
-                [EMPTY_SPACE, EMPTY_SPACE, SOLID_OBJECT, EMPTY_SPACE,
-                 EMPTY_SPACE],
-                [SOLID_OBJECT, EMPTY_SPACE, SOLID_OBJECT, EMPTY_SPACE,
-                 EMPTY_SPACE],
-                [EMPTY_SPACE, SOLID_OBJECT, EMPTY_SPACE, EMPTY_SPACE,
-                 EMPTY_SPACE]
+                [CellType.EMPTY_SPACE, CellType.EMPTY_SPACE, CellType.SOLID_OBJECT, CellType.EMPTY_SPACE,
+                 CellType.EMPTY_SPACE],
+                [CellType.SOLID_OBJECT, CellType.EMPTY_SPACE, CellType.SOLID_OBJECT, CellType.EMPTY_SPACE,
+                 CellType.EMPTY_SPACE],
+                [CellType.EMPTY_SPACE, CellType.SOLID_OBJECT, CellType.EMPTY_SPACE, CellType.EMPTY_SPACE,
+                 CellType.EMPTY_SPACE]
             ]
             direction = Direction.RIGHT
             position = (0, 0)
@@ -180,12 +180,12 @@ class TestRunStep:
         def test_step_direction_right_to_solid_object_then_into_empty_space(
                 self):
             grid = [
-                [EMPTY_SPACE, EMPTY_SPACE, SOLID_OBJECT, EMPTY_SPACE,
-                 EMPTY_SPACE],
-                [SOLID_OBJECT, EMPTY_SPACE, SOLID_OBJECT, EMPTY_SPACE,
-                 EMPTY_SPACE],
-                [EMPTY_SPACE, EMPTY_SPACE, EMPTY_SPACE, EMPTY_SPACE,
-                 EMPTY_SPACE]
+                [CellType.EMPTY_SPACE, CellType.EMPTY_SPACE, CellType.SOLID_OBJECT, CellType.EMPTY_SPACE,
+                 CellType.EMPTY_SPACE],
+                [CellType.SOLID_OBJECT, CellType.EMPTY_SPACE, CellType.SOLID_OBJECT, CellType.EMPTY_SPACE,
+                 CellType.EMPTY_SPACE],
+                [CellType.EMPTY_SPACE, CellType.EMPTY_SPACE, CellType.EMPTY_SPACE, CellType.EMPTY_SPACE,
+                 CellType.EMPTY_SPACE]
             ]
             direction = Direction.RIGHT
             position = (0, 1)
@@ -197,12 +197,12 @@ class TestRunStep:
 
         def test_step_direction_right_to_solid_object_then_out_of_grid(self):
             grid = [
-                [EMPTY_SPACE, EMPTY_SPACE, SOLID_OBJECT, EMPTY_SPACE,
-                 EMPTY_SPACE],
-                [SOLID_OBJECT, EMPTY_SPACE, SOLID_OBJECT, EMPTY_SPACE,
-                 EMPTY_SPACE],
-                [EMPTY_SPACE, EMPTY_SPACE, SOLID_OBJECT, EMPTY_SPACE,
-                 EMPTY_SPACE]
+                [CellType.EMPTY_SPACE, CellType.EMPTY_SPACE, CellType.SOLID_OBJECT, CellType.EMPTY_SPACE,
+                 CellType.EMPTY_SPACE],
+                [CellType.SOLID_OBJECT, CellType.EMPTY_SPACE, CellType.SOLID_OBJECT, CellType.EMPTY_SPACE,
+                 CellType.EMPTY_SPACE],
+                [CellType.EMPTY_SPACE, CellType.EMPTY_SPACE, CellType.SOLID_OBJECT, CellType.EMPTY_SPACE,
+                 CellType.EMPTY_SPACE]
             ]
             direction = Direction.RIGHT
             position = (2, 1)
@@ -214,12 +214,12 @@ class TestRunStep:
 
         def test_step_direction_right_out_of_grid(self):
             grid = [
-                [EMPTY_SPACE, EMPTY_SPACE, SOLID_OBJECT, EMPTY_SPACE,
-                 EMPTY_SPACE],
-                [SOLID_OBJECT, EMPTY_SPACE, SOLID_OBJECT, EMPTY_SPACE,
-                 EMPTY_SPACE],
-                [EMPTY_SPACE, EMPTY_SPACE, EMPTY_SPACE, EMPTY_SPACE,
-                 EMPTY_SPACE]
+                [CellType.EMPTY_SPACE, CellType.EMPTY_SPACE, CellType.SOLID_OBJECT, CellType.EMPTY_SPACE,
+                 CellType.EMPTY_SPACE],
+                [CellType.SOLID_OBJECT, CellType.EMPTY_SPACE, CellType.SOLID_OBJECT, CellType.EMPTY_SPACE,
+                 CellType.EMPTY_SPACE],
+                [CellType.EMPTY_SPACE, CellType.EMPTY_SPACE, CellType.EMPTY_SPACE, CellType.EMPTY_SPACE,
+                 CellType.EMPTY_SPACE]
             ]
             direction = Direction.RIGHT
             position = (0, 4)
@@ -232,12 +232,12 @@ class TestRunStep:
     class TestDirectionDown:
         def test_step_direction_down_to_empty_space(self):
             grid = [
-                [EMPTY_SPACE, EMPTY_SPACE, SOLID_OBJECT, EMPTY_SPACE,
-                 EMPTY_SPACE],
-                [SOLID_OBJECT, EMPTY_SPACE, SOLID_OBJECT, EMPTY_SPACE,
-                 EMPTY_SPACE],
-                [EMPTY_SPACE, SOLID_OBJECT, EMPTY_SPACE, EMPTY_SPACE,
-                 EMPTY_SPACE]
+                [CellType.EMPTY_SPACE, CellType.EMPTY_SPACE, CellType.SOLID_OBJECT, CellType.EMPTY_SPACE,
+                 CellType.EMPTY_SPACE],
+                [CellType.SOLID_OBJECT, CellType.EMPTY_SPACE, CellType.SOLID_OBJECT, CellType.EMPTY_SPACE,
+                 CellType.EMPTY_SPACE],
+                [CellType.EMPTY_SPACE, CellType.SOLID_OBJECT, CellType.EMPTY_SPACE, CellType.EMPTY_SPACE,
+                 CellType.EMPTY_SPACE]
             ]
             direction = Direction.DOWN
             position = (0, 1)
@@ -249,12 +249,12 @@ class TestRunStep:
 
         def test_step_direction_down_to_solid_object_then_empty_space(self):
             grid = [
-                [EMPTY_SPACE, EMPTY_SPACE, SOLID_OBJECT, EMPTY_SPACE,
-                 EMPTY_SPACE],
-                [SOLID_OBJECT, EMPTY_SPACE, EMPTY_SPACE, EMPTY_SPACE,
-                 EMPTY_SPACE],
-                [EMPTY_SPACE, EMPTY_SPACE, SOLID_OBJECT, EMPTY_SPACE,
-                 EMPTY_SPACE]
+                [CellType.EMPTY_SPACE, CellType.EMPTY_SPACE, CellType.SOLID_OBJECT, CellType.EMPTY_SPACE,
+                 CellType.EMPTY_SPACE],
+                [CellType.SOLID_OBJECT, CellType.EMPTY_SPACE, CellType.EMPTY_SPACE, CellType.EMPTY_SPACE,
+                 CellType.EMPTY_SPACE],
+                [CellType.EMPTY_SPACE, CellType.EMPTY_SPACE, CellType.SOLID_OBJECT, CellType.EMPTY_SPACE,
+                 CellType.EMPTY_SPACE]
             ]
             direction = Direction.DOWN
             position = (1, 2)
@@ -266,12 +266,12 @@ class TestRunStep:
 
         def test_step_direction_down_to_solid_object_then_out_of_grid(self):
             grid = [
-                [EMPTY_SPACE, EMPTY_SPACE, SOLID_OBJECT, EMPTY_SPACE,
-                 EMPTY_SPACE],
-                [SOLID_OBJECT, EMPTY_SPACE, EMPTY_SPACE, EMPTY_SPACE,
-                 EMPTY_SPACE],
-                [EMPTY_SPACE, EMPTY_SPACE, SOLID_OBJECT, EMPTY_SPACE,
-                 EMPTY_SPACE]
+                [CellType.EMPTY_SPACE, CellType.EMPTY_SPACE, CellType.SOLID_OBJECT, CellType.EMPTY_SPACE,
+                 CellType.EMPTY_SPACE],
+                [CellType.SOLID_OBJECT, CellType.EMPTY_SPACE, CellType.EMPTY_SPACE, CellType.EMPTY_SPACE,
+                 CellType.EMPTY_SPACE],
+                [CellType.EMPTY_SPACE, CellType.EMPTY_SPACE, CellType.SOLID_OBJECT, CellType.EMPTY_SPACE,
+                 CellType.EMPTY_SPACE]
             ]
             direction = Direction.DOWN
             position = (0, 0)
@@ -283,12 +283,12 @@ class TestRunStep:
 
         def test_step_direction_down_out_of_grid(self):
             grid = [
-                [EMPTY_SPACE, EMPTY_SPACE, SOLID_OBJECT, EMPTY_SPACE,
-                 EMPTY_SPACE],
-                [SOLID_OBJECT, EMPTY_SPACE, SOLID_OBJECT, EMPTY_SPACE,
-                 EMPTY_SPACE],
-                [EMPTY_SPACE, EMPTY_SPACE, EMPTY_SPACE, EMPTY_SPACE,
-                 EMPTY_SPACE]
+                [CellType.EMPTY_SPACE, CellType.EMPTY_SPACE, CellType.SOLID_OBJECT, CellType.EMPTY_SPACE,
+                 CellType.EMPTY_SPACE],
+                [CellType.SOLID_OBJECT, CellType.EMPTY_SPACE, CellType.SOLID_OBJECT, CellType.EMPTY_SPACE,
+                 CellType.EMPTY_SPACE],
+                [CellType.EMPTY_SPACE, CellType.EMPTY_SPACE, CellType.EMPTY_SPACE, CellType.EMPTY_SPACE,
+                 CellType.EMPTY_SPACE]
             ]
             direction = Direction.DOWN
             position = (2, 1)
@@ -302,12 +302,12 @@ class TestRunStep:
 class TestLoopCheck:
     def test_guard_in_loop_returns_true(self):
         grid = [
-            [EMPTY_SPACE, SOLID_OBJECT, SOLID_OBJECT, EMPTY_SPACE,
-             EMPTY_SPACE],
-            [SOLID_OBJECT, EMPTY_SPACE, EMPTY_SPACE, SOLID_OBJECT,
-             EMPTY_SPACE],
-            [EMPTY_SPACE, EMPTY_SPACE, SOLID_OBJECT, EMPTY_SPACE,
-             EMPTY_SPACE]
+            [CellType.EMPTY_SPACE, CellType.SOLID_OBJECT, CellType.SOLID_OBJECT, CellType.EMPTY_SPACE,
+             CellType.EMPTY_SPACE],
+            [CellType.SOLID_OBJECT, CellType.EMPTY_SPACE, CellType.EMPTY_SPACE, CellType.SOLID_OBJECT,
+             CellType.EMPTY_SPACE],
+            [CellType.EMPTY_SPACE, CellType.EMPTY_SPACE, CellType.SOLID_OBJECT, CellType.EMPTY_SPACE,
+             CellType.EMPTY_SPACE]
         ]
         position = (1, 2)
         direction = Direction.UP
@@ -315,12 +315,12 @@ class TestLoopCheck:
 
     def test_guard_not_in_loop_returns_false(self):
         grid = [
-            [EMPTY_SPACE, EMPTY_SPACE, SOLID_OBJECT, EMPTY_SPACE,
-             EMPTY_SPACE],
-            [SOLID_OBJECT, EMPTY_SPACE, EMPTY_SPACE, SOLID_OBJECT,
-             EMPTY_SPACE],
-            [EMPTY_SPACE, EMPTY_SPACE, EMPTY_SPACE, EMPTY_SPACE,
-             EMPTY_SPACE]
+            [CellType.EMPTY_SPACE, CellType.EMPTY_SPACE, CellType.SOLID_OBJECT, CellType.EMPTY_SPACE,
+             CellType.EMPTY_SPACE],
+            [CellType.SOLID_OBJECT, CellType.EMPTY_SPACE, CellType.EMPTY_SPACE, CellType.SOLID_OBJECT,
+             CellType.EMPTY_SPACE],
+            [CellType.EMPTY_SPACE, CellType.EMPTY_SPACE, CellType.EMPTY_SPACE, CellType.EMPTY_SPACE,
+             CellType.EMPTY_SPACE]
         ]
         position = (1, 1)
         direction = Direction.UP

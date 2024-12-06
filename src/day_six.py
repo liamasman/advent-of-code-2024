@@ -1,11 +1,13 @@
 import copy
-from enum import EnumMeta
-
-SOLID_OBJECT = True
-EMPTY_SPACE = False
+from enum import Enum, auto
 
 
-class Direction(EnumMeta):
+class CellType(Enum):
+    SOLID_OBJECT = auto()
+    EMPTY_SPACE = auto()
+
+
+class Direction(Enum):
     UP = -1, 0,
     DOWN = 1, 0,
     LEFT = 0, -1,
@@ -20,38 +22,38 @@ def load_grid(raw_input):
         grid_row = []
         for col_index, char in enumerate(row):
             if char == "#":
-                grid_row.append(SOLID_OBJECT)
+                grid_row.append(CellType.SOLID_OBJECT)
             elif char == "^":
-                grid_row.append(EMPTY_SPACE)
+                grid_row.append(CellType.EMPTY_SPACE)
                 direction = Direction.UP
                 position = (row_index, col_index)
             elif char == "v":
-                grid_row.append(EMPTY_SPACE)
+                grid_row.append(CellType.EMPTY_SPACE)
                 direction = Direction.DOWN
                 position = (row_index, col_index)
             elif char == "<":
-                grid_row.append(EMPTY_SPACE)
+                grid_row.append(CellType.EMPTY_SPACE)
                 direction = Direction.LEFT
                 position = (row_index, col_index)
             elif char == ">":
-                grid_row.append(EMPTY_SPACE)
+                grid_row.append(CellType.EMPTY_SPACE)
                 direction = Direction.RIGHT
                 position = (row_index, col_index)
             else:
-                grid_row.append(EMPTY_SPACE)
+                grid_row.append(CellType.EMPTY_SPACE)
         grid.append(grid_row)
     return grid, position, direction
 
 
 def run_step(grid, position, direction):
     (row, col) = position
-    (row_delta, col_delta) = direction
+    (row_delta, col_delta) = direction.value
     new_row = row + row_delta
     new_col = col + col_delta
     if new_row < 0 or new_row >= len(grid) or new_col < 0 or new_col >= len(
             grid[0]):
         return None, None, True
-    if grid[new_row][new_col] == SOLID_OBJECT:
+    if grid[new_row][new_col] == CellType.SOLID_OBJECT:
         if direction == Direction.UP:
             return run_step(grid, position, Direction.RIGHT)
         elif direction == Direction.DOWN:
@@ -94,15 +96,15 @@ def part_one(raw_input):
 
 
 def is_empty_space(grid, row_index, col_index):
-    return grid[row_index][col_index] == EMPTY_SPACE
+    return grid[row_index][col_index] == CellType.EMPTY_SPACE
 
 
 def add_solid_object_to_grid(grid, location):
-    set_grid_cell(grid, location, SOLID_OBJECT)
+    set_grid_cell(grid, location, CellType.SOLID_OBJECT)
 
 
 def add_empty_space_to_grid(grid, location):
-    set_grid_cell(grid, location, EMPTY_SPACE)
+    set_grid_cell(grid, location, CellType.EMPTY_SPACE)
 
 
 def set_grid_cell(grid, location, cell_type):
@@ -116,7 +118,7 @@ def part_two(raw_input):
     loop_count = 0
     for position in visited_positions:
         if not position == start_position:
-            if test_if_setting_position_solid_makes_a_loop(
+            if check_if_setting_position_solid_makes_a_loop(
                     grid,
                     position,
                     start_direction,
@@ -125,10 +127,10 @@ def part_two(raw_input):
     return loop_count
 
 
-def test_if_setting_position_solid_makes_a_loop(grid,
-                                                position,
-                                                start_direction,
-                                                start_position):
+def check_if_setting_position_solid_makes_a_loop(grid,
+                                                 position,
+                                                 start_direction,
+                                                 start_position):
     result = False
     add_solid_object_to_grid(grid, position)
     if is_guard_in_a_loop(grid, start_position,
