@@ -1,3 +1,4 @@
+import copy
 from enum import EnumMeta
 
 SOLID_OBJECT = True
@@ -60,7 +61,7 @@ def run_step(grid, position, direction):
     return (new_row, new_col), direction, False
 
 
-def get_visited_positions(grid, start_position, start_direction):
+def get_visited_positions_part_one(grid, start_position, start_direction):
     position = start_position
     direction = start_direction
     visited_positions = set()
@@ -71,14 +72,54 @@ def get_visited_positions(grid, start_position, start_direction):
     return visited_positions
 
 
+def is_guard_in_a_loop(grid, start_position, start_direction):
+    position = start_position
+    direction = start_direction
+    visited_positions = set()
+    exited_grid = False
+    while not exited_grid:
+        if (position, direction) in visited_positions:
+            return True
+        visited_positions.add((position, direction))
+        position, direction, exited_grid = run_step(grid, position, direction)
+    return False
+
+
 def part_one(raw_input):
     grid, start_position, start_direction = load_grid(raw_input)
-    visited_positions = get_visited_positions(grid, start_position,
-                                              start_direction)
+    visited_positions = get_visited_positions_part_one(grid, start_position,
+                                                       start_direction)
     return len(visited_positions)
+
+
+def is_empty_space(grid, row_index, col_index):
+    return grid[row_index][col_index] == EMPTY_SPACE
+
+
+def add_solid_object_to_grid(grid, location):
+    new_grid = copy.deepcopy(grid)
+    new_grid[location[0]][location[1]] = SOLID_OBJECT
+    return new_grid
+
+
+def part_two(raw_input):
+    grid, start_position, start_direction = load_grid(raw_input)
+    loop_count = 0
+    for row_index in range(len(grid)):
+        for col_index in range(len(grid[0])):
+            if (is_empty_space(grid, row_index, col_index) and not (row_index,
+                                                                  col_index)
+                                                                  == start_position):
+                test_grid = add_solid_object_to_grid(grid, (row_index, col_index))
+                if is_guard_in_a_loop(test_grid, start_position,
+                                      start_direction):
+                    loop_count += 1
+    return loop_count
+
 
 if __name__ == "__main__":
     with open("../resources/Day6Input.txt") as f:
         raw_input = f.read()
 
-    print(part_one(raw_input))
+    print(f"part one: {part_one(raw_input)}")
+    print(f"part two: {part_two(raw_input)}")
