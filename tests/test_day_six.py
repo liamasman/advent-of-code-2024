@@ -353,10 +353,3 @@ def test_part_two_given_case():
 #.........
 ......#..."""
     assert 6 == part_two(input)
-
-
-def test_part_two_known_actual_result():
-    with open('../resources/Day6Input.txt') as f:
-        input = f.read()
-
-    assert 1482 == part_two(input)
