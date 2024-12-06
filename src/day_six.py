@@ -14,6 +14,9 @@ class Direction(Enum):
     RIGHT = 0, 1
 
 
+def turn_right(direction):
+    return Direction((direction.value[1], -direction.value[0]))
+
 def load_grid(raw_input):
     grid = []
     direction = None
@@ -54,14 +57,7 @@ def run_step(grid, position, direction):
             grid[0]):
         return None, None, True
     if grid[new_row][new_col] == CellType.SOLID_OBJECT:
-        if direction == Direction.UP:
-            return run_step(grid, position, Direction.RIGHT)
-        elif direction == Direction.DOWN:
-            return run_step(grid, position, Direction.LEFT)
-        elif direction == Direction.LEFT:
-            return run_step(grid, position, Direction.UP)
-        elif direction == Direction.RIGHT:
-            return run_step(grid, position, Direction.DOWN)
+            return run_step(grid, position, turn_right(direction))
     return (new_row, new_col), direction, False
 
 
