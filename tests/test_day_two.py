@@ -90,7 +90,8 @@ class PartTwo(unittest.TestCase):
         input = ["4 4 3 2 1"]
         self.assertEqual(1, is_safe_part_two(input))
 
-    def test_single_line_up_and_down_with_duplicate_number_at_end_and_beginning(self):
+    def test_single_line_up_and_down_with_duplicate_number_at_end_and_beginning(
+            self):
         input = ["4 4 3 2 4"]
         self.assertEqual(0, is_safe_part_two(input))
 

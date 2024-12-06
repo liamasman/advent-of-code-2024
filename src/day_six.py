@@ -80,18 +80,18 @@ def is_guard_in_a_loop(grid, start_position, start_direction):
     # Rabbit and hare approach
     position1, direction1 = start_position, start_direction
     position2, direction2, exited_grid = run_step(grid, start_position,
-                                          start_direction)
+                                                  start_direction)
     if exited_grid:
         return False
     while position1 != position2 or direction1 != direction2:
         position1, direction1, _ = run_step(grid, position1,
-                                                     direction1)
+                                            direction1)
         position2, direction2, exited_grid = run_step(grid, position2,
-                                                    direction2)
+                                                      direction2)
         if exited_grid:
             return False
         position2, direction2, exited_grid = run_step(grid, position2,
-                                                    direction2)
+                                                      direction2)
         if exited_grid:
             return False
     return True

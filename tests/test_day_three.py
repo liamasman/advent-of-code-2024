@@ -5,7 +5,8 @@ from src.day_three import day_three_part_one, day_three_part_two
 
 class DayThreePartOneTest(unittest.TestCase):
     def test_given_test_case(self):
-        input = "xmul(2,4)%&mul[3,7]!@^do_not_mul(5,5)+mul(32,64]then(mul(11,8)mul(8,5))"
+        input = ("xmul(2,4)%&mul[3,7]!@^do_not_mul(5,5)+mul(32,64]then(mul("
+        "11,8)mul(8,5))")
         self.assertEqual(161, day_three_part_one(input))
 
     def test_single_mul_single_digits(self):

@@ -2,20 +2,47 @@ def count_words_in_puzzle(puzzle_input, target_word):
     count = 0
     for row_index in range(0, len(puzzle_input)):
         for col_index in range(0, len(puzzle_input[row_index])):
-            count += count_words_starting_at(puzzle_input, target_word, row_index, col_index)
+            count += count_words_starting_at(puzzle_input,
+                                             target_word,
+                                             row_index,
+                                             col_index)
     return count
 
 
 def count_words_starting_at(puzzle_input, target_word, row_index, col_index):
     count = 0
-    count += is_start_of_word_right(target_word, col_index, puzzle_input, row_index)
-    count += is_start_of_word_left(target_word, col_index, puzzle_input, row_index)
-    count += is_start_of_word_down(target_word, row_index, puzzle_input, col_index)
-    count += is_start_of_word_up(target_word, row_index, puzzle_input, col_index)
-    count += is_start_of_word_diagonal_down_right(target_word, row_index, col_index, puzzle_input)
-    count += is_start_of_word_diagonal_down_left(target_word, row_index, col_index, puzzle_input)
-    count += is_start_of_word_diagonal_up_right(target_word, row_index, col_index, puzzle_input)
-    count += is_start_of_word_diagonal_up_left(target_word, row_index, col_index, puzzle_input)
+    count += is_start_of_word_right(target_word,
+                                    col_index,
+                                    puzzle_input,
+                                    row_index)
+    count += is_start_of_word_left(target_word,
+                                   col_index,
+                                   puzzle_input,
+                                   row_index)
+    count += is_start_of_word_down(target_word,
+                                   row_index,
+                                   puzzle_input,
+                                   col_index)
+    count += is_start_of_word_up(target_word,
+                                 row_index,
+                                 puzzle_input,
+                                 col_index)
+    count += is_start_of_word_diagonal_down_right(target_word,
+                                                  row_index,
+                                                  col_index,
+                                                  puzzle_input)
+    count += is_start_of_word_diagonal_down_left(target_word,
+                                                 row_index,
+                                                 col_index,
+                                                 puzzle_input)
+    count += is_start_of_word_diagonal_up_right(target_word,
+                                                row_index,
+                                                col_index,
+                                                puzzle_input)
+    count += is_start_of_word_diagonal_up_left(target_word,
+                                               row_index,
+                                               col_index,
+                                               puzzle_input)
     return count
 
 
@@ -45,6 +72,7 @@ def is_start_of_word_down(target_word, row_index, puzzle_input, col_index):
             return 0
     return 1
 
+
 def is_start_of_word_up(target_word, row_index, puzzle_input, col_index):
     if row_index < len(target_word) - 1:
         return 0
@@ -53,37 +81,61 @@ def is_start_of_word_up(target_word, row_index, puzzle_input, col_index):
             return 0
     return 1
 
-def is_start_of_word_diagonal_down_right(target_word, row_index, col_index, puzzle_input):
-    if row_index + len(target_word) > len(puzzle_input) or col_index + len(target_word) > len(puzzle_input[0]):
+
+def is_start_of_word_diagonal_down_right(target_word,
+                                         row_index,
+                                         col_index,
+                                         puzzle_input):
+    if row_index + len(target_word) > len(puzzle_input) or col_index + len(
+            target_word) > len(puzzle_input[0]):
         return 0
     for letter_index, letter in enumerate(target_word):
-        if puzzle_input[row_index + letter_index][col_index + letter_index] != letter:
+        if puzzle_input[row_index + letter_index][
+            col_index + letter_index] != letter:
             return 0
     return 1
 
-def is_start_of_word_diagonal_down_left(target_word, row_index, col_index, puzzle_input):
-    if row_index + len(target_word) > len(puzzle_input) or col_index < len(target_word) - 1:
+
+def is_start_of_word_diagonal_down_left(target_word,
+                                        row_index,
+                                        col_index,
+                                        puzzle_input):
+    if row_index + len(target_word) > len(puzzle_input) or col_index < len(
+            target_word) - 1:
         return 0
     for letter_index, letter in enumerate(target_word):
-        if puzzle_input[row_index + letter_index][col_index - letter_index] != letter:
+        if puzzle_input[row_index + letter_index][
+            col_index - letter_index] != letter:
             return 0
     return 1
 
-def is_start_of_word_diagonal_up_right(target_word, row_index, col_index, puzzle_input):
-    if row_index < len(target_word) - 1 or col_index + len(target_word) > len(puzzle_input[0]):
+
+def is_start_of_word_diagonal_up_right(target_word,
+                                       row_index,
+                                       col_index,
+                                       puzzle_input):
+    if row_index < len(target_word) - 1 or col_index + len(target_word) > len(
+            puzzle_input[0]):
         return 0
     for letter_index, letter in enumerate(target_word):
-        if puzzle_input[row_index - letter_index][col_index + letter_index] != letter:
+        if puzzle_input[row_index - letter_index][
+            col_index + letter_index] != letter:
             return 0
     return 1
 
-def is_start_of_word_diagonal_up_left(target_word, row_index, col_index, puzzle_input):
+
+def is_start_of_word_diagonal_up_left(target_word,
+                                      row_index,
+                                      col_index,
+                                      puzzle_input):
     if row_index < len(target_word) - 1 or col_index < len(target_word) - 1:
         return 0
     for letter_index, letter in enumerate(target_word):
-        if puzzle_input[row_index - letter_index][col_index - letter_index] != letter:
+        if puzzle_input[row_index - letter_index][
+            col_index - letter_index] != letter:
             return 0
     return 1
+
 
 def part_one(puzzle_input):
     target_word = "XMAS"
@@ -122,7 +174,9 @@ def count_patterns_in_puzzle(puzzle_input, target_pattern):
 def count_pattern_in_puzzle(puzzle_input, pattern):
     count = 0
     for row_index in range(0, len(puzzle_input) - len(pattern) + 1):
-        for col_index in range(0, len(puzzle_input[row_index]) - len(pattern[0]) + 1):
+        for col_index in range(0,
+                               len(puzzle_input[row_index]) - len(
+                                       pattern[0]) + 1):
             count += is_pattern_at(puzzle_input, pattern, row_index, col_index)
     return count
 
@@ -130,7 +184,9 @@ def count_pattern_in_puzzle(puzzle_input, pattern):
 def is_pattern_at(puzzle_input, pattern, row_index, col_index):
     for pattern_row_index, pattern_row in enumerate(pattern):
         for pattern_col_index, pattern_letter in enumerate(pattern_row):
-            if pattern_letter is not None and puzzle_input[row_index + pattern_row_index][col_index + pattern_col_index] != pattern_letter:
+            if pattern_letter is not None and \
+                    puzzle_input[row_index + pattern_row_index][
+                        col_index + pattern_col_index] != pattern_letter:
                 return 0
     return 1
 
@@ -143,6 +199,7 @@ def part_two(puzzle_input):
     ]
     puzzle_input = puzzle_input.split("\n")
     return count_patterns_in_puzzle(puzzle_input, target_pattern)
+
 
 if __name__ == "__main__":
     with open("../resources/Day4Input.txt", "r", encoding="UTF-8") as f:

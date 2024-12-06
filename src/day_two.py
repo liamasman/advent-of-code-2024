@@ -1,5 +1,6 @@
 from itertools import pairwise
 
+
 def is_safe_part_one(input):
     input = convert_lines(input)
     safe = 0

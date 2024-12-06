@@ -1,8 +1,8 @@
 from functools import cmp_to_key
-from venv import create
 
-from day_five import parse_input, part_one, get_valid_updates, process_rules, get_middle_number, part_two, \
-    correct_invalid_update, create_sort_function, correct_invalid_updates
+from day_five import parse_input, part_one, get_valid_updates, process_rules, \
+    get_middle_number, part_two, \
+    correct_invalid_update, create_sort_function
 
 
 class TestParseInput:
@@ -29,6 +29,7 @@ class TestParseInput:
             ]
         )
         assert parse_input(input) == expected
+
 
 class TestGetValidUpdates:
     def test_all_rules_satisfied(self):
@@ -138,6 +139,7 @@ class TestGetValidUpdates:
             [93, 87, 12, 23, 54, 82, 47, 77],
         ]
 
+
 class TestProcessRules:
     def test_process_rules(self):
         rules = [
@@ -157,10 +159,12 @@ class TestProcessRules:
         }
         assert expected == process_rules(rules)
 
+
 class TestGetMiddleNumber:
     def test_get_middle_number(self):
         numbers = [1, 2, 3, 4, 5]
         assert 3 == get_middle_number(numbers)
+
 
 class TestCorrectInvalidUpdates:
     def test_two_numbers_corrected(self):
@@ -176,11 +180,13 @@ class TestCorrectInvalidUpdates:
     def test_multiple_rules(self):
         numbers = [63, 47, 18, 23, 87]
         sort_function = cmp_to_key(lambda a, b: 1 if a >= b else -1)
-        assert correct_invalid_update(numbers, sort_function) == [18, 23, 47, 63, 87]
+        assert correct_invalid_update(numbers, sort_function) == [18, 23, 47,
+                                                                  63, 87]
+
 
 class TestPartOne:
     def test_given_case(self):
-        input="""47|53
+        input = """47|53
 97|13
 97|61
 97|47
@@ -210,9 +216,10 @@ class TestPartOne:
 97,13,75,29,47"""
         assert 143 == part_one(input)
 
+
 class TestPartTwo:
     def test_given_case(self):
-        input="""47|53
+        input = """47|53
 97|13
 97|61
 97|47
@@ -267,10 +274,11 @@ class TestPartTwo:
 
 2""")
         rules = process_rules(rules)
-        invalid_update = [75,97,47,61,53]
-        expected = [97,75,47,61,53]
+        invalid_update = [75, 97, 47, 61, 53]
+        expected = [97, 75, 47, 61, 53]
         sort_function = create_sort_function(rules)
-        assert correct_invalid_update(invalid_update, sort_function) == expected
+        assert correct_invalid_update(invalid_update,
+                                      sort_function) == expected
 
     def test_correcting_given_case_2(self):
         rules, _ = parse_input("""47|53
@@ -297,10 +305,11 @@ class TestPartTwo:
 
 2""")
         rules = process_rules(rules)
-        invalid_update = [61,13,29]
+        invalid_update = [61, 13, 29]
         expected = [61, 29, 13]
         sort_function = create_sort_function(rules)
-        assert correct_invalid_update(invalid_update, sort_function) == expected
+        assert correct_invalid_update(invalid_update,
+                                      sort_function) == expected
 
     def test_correcting_given_case_3(self):
         rules, _ = parse_input("""97|13
@@ -316,7 +325,8 @@ class TestPartTwo:
 
         2""")
         rules = process_rules(rules)
-        invalid_update = [97,13,75,29,47]
-        expected = [97,75,47,29,13]
+        invalid_update = [97, 13, 75, 29, 47]
+        expected = [97, 75, 47, 29, 13]
         sort_function = create_sort_function(rules)
-        assert correct_invalid_update(invalid_update, sort_function) == expected
+        assert correct_invalid_update(invalid_update,
+                                      sort_function) == expected

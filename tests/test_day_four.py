@@ -1,5 +1,6 @@
 from src.day_four import part_one, part_two, rotate_90, create_rotations
 
+
 class TestPartOne:
     def test_given_testcase(self):
         input = """MMMSXXMASM
@@ -266,7 +267,7 @@ X...
 ..........A..
 ...........S."""
         assert 4 == part_one(input)
-        
+
     def test_diagonal_down_left_tight_fit(self):
         input = """...X
 ..M.
@@ -394,7 +395,7 @@ S...
 ..........M..
 ...........X."""
         assert 4 == part_one(input)
-        
+
     def test_diagonal_up_left_tight_fit(self):
         input = """...S
 ..A.
@@ -458,6 +459,7 @@ X......X...A.
 ..........M..
 .........X...."""
         assert 4 == part_one(input)
+
 
 class TestPartTwo:
     def test_given_testcase(self):
