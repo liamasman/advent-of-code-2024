@@ -4,6 +4,7 @@ from enum import EnumMeta
 SOLID_OBJECT = True
 EMPTY_SPACE = False
 
+
 class Direction(EnumMeta):
     UP = -1, 0,
     DOWN = 1, 0,
@@ -47,7 +48,8 @@ def run_step(grid, position, direction):
     (row_delta, col_delta) = direction
     new_row = row + row_delta
     new_col = col + col_delta
-    if new_row < 0 or new_row >= len(grid) or new_col < 0 or new_col >= len(grid[0]):
+    if new_row < 0 or new_row >= len(grid) or new_col < 0 or new_col >= len(
+            grid[0]):
         return None, None, True
     if grid[new_row][new_col] == SOLID_OBJECT:
         if direction == Direction.UP:
@@ -75,14 +77,13 @@ def get_visited_positions_part_one(grid, start_position, start_direction):
 def is_guard_in_a_loop(grid, start_position, start_direction):
     position = start_position
     direction = start_direction
-    visited_positions = set()
-    exited_grid = False
-    while not exited_grid:
-        if (position, direction) in visited_positions:
-            return True
-        visited_positions.add((position, direction))
+    visited_position_count = 0
+    while visited_position_count < len(grid) * len(grid[0]):
+        visited_position_count += 1
         position, direction, exited_grid = run_step(grid, position, direction)
-    return False
+        if exited_grid:
+            return False
+    return True
 
 
 def part_one(raw_input):
@@ -97,24 +98,44 @@ def is_empty_space(grid, row_index, col_index):
 
 
 def add_solid_object_to_grid(grid, location):
-    new_grid = copy.deepcopy(grid)
-    new_grid[location[0]][location[1]] = SOLID_OBJECT
-    return new_grid
+    set_grid_cell(grid, location, SOLID_OBJECT)
+
+
+def add_empty_space_to_grid(grid, location):
+    set_grid_cell(grid, location, EMPTY_SPACE)
+
+
+def set_grid_cell(grid, location, cell_type):
+    grid[location[0]][location[1]] = cell_type
 
 
 def part_two(raw_input):
     grid, start_position, start_direction = load_grid(raw_input)
+    visited_positions = get_visited_positions_part_one(grid, start_position,
+                                                       start_direction)
     loop_count = 0
-    for row_index in range(len(grid)):
-        for col_index in range(len(grid[0])):
-            if (is_empty_space(grid, row_index, col_index) and not (row_index,
-                                                                  col_index)
-                                                                  == start_position):
-                test_grid = add_solid_object_to_grid(grid, (row_index, col_index))
-                if is_guard_in_a_loop(test_grid, start_position,
-                                      start_direction):
-                    loop_count += 1
+    for position in visited_positions:
+        if not position == start_position:
+            if test_if_setting_position_solid_makes_a_loop(
+                    grid,
+                    position,
+                    start_direction,
+                    start_position):
+                loop_count = loop_count + 1
     return loop_count
+
+
+def test_if_setting_position_solid_makes_a_loop(grid,
+                                                position,
+                                                start_direction,
+                                                start_position):
+    result = False
+    add_solid_object_to_grid(grid, position)
+    if is_guard_in_a_loop(grid, start_position,
+                          start_direction):
+        result = True
+    add_empty_space_to_grid(grid, position)
+    return result
 
 
 if __name__ == "__main__":
