@@ -50,6 +50,7 @@ def apply_operator_to_head_of_list(operandsp: list[int],
 def can_satisfy_equation_part_two(target: int, operands: list[int]) -> bool:
     if len(operands) == 1:
         return target == operands[0]
+    #TODO return false if the head of the list is greater than the target
     return can_satisfy_equation_part_two(target,
                                          apply_operator_to_head_of_list(
                                              operands,
