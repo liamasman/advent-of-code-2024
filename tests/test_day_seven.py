@@ -1,5 +1,5 @@
 from day_seven import parse_input, can_satisfy_equation_part_one, part_one, \
-    part_two, can_satisfy_equation_part_two
+    part_two, can_satisfy_equation_part_two, deconcat
 
 
 class TestParseInput:
@@ -39,6 +39,11 @@ class TestCanSatisfyEquationPartOne:
         assert not can_satisfy_equation_part_one(161011, [16, 10, 13])
         assert not can_satisfy_equation_part_one(192, [17, 8, 14])
         assert not can_satisfy_equation_part_one(21037, [9, 7, 18, 13])
+
+class TestDeconcat:
+    def test_deconcat(self):
+        assert deconcat(123, 23) == 1
+        assert deconcat(123, 3) == 12
 
 class TestCanSatisfyEquationPartTwo:
     def test_given_example(self):
