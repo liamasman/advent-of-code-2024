@@ -38,21 +38,28 @@ def sum_operands(param1: int, param2: int) -> int:
     return param1 + param2
 
 
-def modify_params(operands: list[int], operator: Callable[[int, int],
-int]) -> list[int]:
-    new_value: int = operator(operands[0], operands[1])
-    return [new_value] + operands[2:]
+# TODO instead of modifying the list, can return a tuple of current head of
+# list and the remaining operands
+def apply_operator_to_head_of_list(operandsp: list[int],
+                                   operator: Callable[[int, int],
+                                   int]) -> list[int]:
+    new_value: int = operator(operandsp[0], operandsp[1])
+    return [new_value] + operandsp[2:]
 
 
 def can_satisfy_equation_part_two(target: int, operands: list[int]) -> bool:
     if len(operands) == 1:
         return target == operands[0]
-    return can_satisfy_equation_part_two(target, modify_params(operands,
-                                                               concatenate_operands)) or \
-        can_satisfy_equation_part_two(target, modify_params(operands,
-                                                            multiply_operands)) or \
-        can_satisfy_equation_part_two(target, modify_params(operands,
-                                                            sum_operands))
+    return can_satisfy_equation_part_two(target,
+                                         apply_operator_to_head_of_list(
+                                             operands,
+                                             concatenate_operands)) or \
+        can_satisfy_equation_part_two(target,
+                                      apply_operator_to_head_of_list(operands,
+                                                                     multiply_operands)) or \
+        can_satisfy_equation_part_two(target,
+                                      apply_operator_to_head_of_list(operands,
+                                                                     sum_operands))
 
 
 def part_one(raw_input: str) -> int:
