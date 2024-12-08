@@ -1,5 +1,6 @@
 from day_eight import part_one, load_grid, load_antenna_locations, \
-    generate_candidate_antinodes
+    generate_candidate_antinodes_part_one, \
+    generate_candidate_antinodes_part_two, part_two
 
 
 class TestLoadAntennaLocations:
@@ -45,7 +46,7 @@ class TestLoadGrid:
         assert load_grid(raw_input) == (expected_pairs, expected_dimensions)
 
 
-class TestGenerateCandidateAntinodes:
+class TestGenerateCandidateAntinodesPartOne:
     def test_antinodes_where_antinodes_outside_each_antenna(self):
         # .#....
         # ..A...
@@ -53,14 +54,14 @@ class TestGenerateCandidateAntinodes:
         # ....#.
         antenna_pairs = {((1, 2), (2, 3))}
         expected = {(0, 1), (3, 4)}
-        assert set(generate_candidate_antinodes(antenna_pairs)) == expected
+        assert set(generate_candidate_antinodes_part_one(antenna_pairs)) == expected
 
 
     def test_antinodes_where_antinode_also_inside_pair_not_returned(self):
         # #..A##A..#
         antenna_pairs = {((0, 3), (0, 6))}
         expected = {(0, 0), (0, 9)}
-        assert set(generate_candidate_antinodes(antenna_pairs)) == expected
+        assert set(generate_candidate_antinodes_part_one(antenna_pairs)) == expected
 
 
     # def test_antinodes_where_antinode_also_inside_pair(self):
@@ -74,7 +75,7 @@ class TestGenerateCandidateAntinodes:
         # #.A.A.#
         antenna_pairs = {((0, 2), (0, 4))}
         expected = {(0, 0), (0, 6)}
-        assert set(generate_candidate_antinodes(antenna_pairs)) == expected
+        assert set(generate_candidate_antinodes_part_one(antenna_pairs)) == expected
 
 
     def test_antinodes_can_be_outside_grid(self):
@@ -84,7 +85,31 @@ class TestGenerateCandidateAntinodes:
         #    #
         antenna_pairs = {((0, 0), (1, 1))}
         expected = {(-1, -1), (2, 2)}
-        assert set(generate_candidate_antinodes(antenna_pairs)) == expected
+        assert set(generate_candidate_antinodes_part_one(antenna_pairs)) == expected
+
+
+class TestGenerateAntinodesPartTwo:
+    def test_single_pair_antennas(self):
+        # .AA...
+        antenna_pairs = {((0, 1), (0, 2))}
+        expected = {(0, 0), (0, 1), (0, 2), (0, 3), (0, 4), (0, 5)}
+        assert set(generate_candidate_antinodes_part_two(antenna_pairs, (2, 6))) == expected
+
+
+    def test_given_example(self):
+        # T.........
+        # ...T......
+        # .T........
+        # ..........
+        # ..........
+        # ..........
+        # ..........
+        # ..........
+        # ..........
+        # ..........
+        antenna_pairs = {((0, 0), (1, 3)), ((0, 0), (2, 1)), ((1, 3), (2, 1))}
+        assert len(set(generate_candidate_antinodes_part_two(antenna_pairs,
+                                                             (10, 10)))) == 9
 
 
 def test_part_one_given_case():
@@ -101,3 +126,19 @@ def test_part_one_given_case():
 ............
 ............"""
     assert part_one(raw_input) == 14
+
+
+def test_part_two_given_case():
+    raw_input = """............
+........0...
+.....0......
+.......0....
+....0.......
+......A.....
+............
+............
+........A...
+.........A..
+............
+............"""
+    assert part_two(raw_input) == 34

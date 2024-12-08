@@ -38,7 +38,7 @@ def create_pairwise_antennas(antennas: dict[str, list[tuple[int, int]]]) -> (
     return pair_wise
 
 
-def generate_candidate_antinodes(antenna_pairs: set[tuple[tuple[int, int],
+def generate_candidate_antinodes_part_one(antenna_pairs: set[tuple[tuple[int, int],
 tuple[int, int]]]) -> Generator[tuple[int, int], None, None]:
     '''
     Generate all candidate antinodes for the given antenna pairs.
@@ -54,8 +54,25 @@ tuple[int, int]]]) -> Generator[tuple[int, int], None, None]:
         #     yield r2 - third[0], c2 - third[1]
 
 
-def is_valid_antinode(antinode: tuple[int, int],
-                      grid_dimensions: tuple[int, int]) -> bool:
+def generate_candidate_antinodes_part_two(antenna_pairs: set[tuple[tuple[int, int],
+tuple[int, int]]], grid_dimensions) -> Generator[tuple[int, int], None, None]:
+    '''
+    Generate all candidate antinodes for the given antenna pairs.
+    '''
+    for (r1, c1), (r2, c2) in antenna_pairs:
+        diff = (r2 - r1, c2 - c1)
+        candidate = (r1, c1)
+        while is_in_bounds(candidate, grid_dimensions):
+            yield candidate
+            candidate = (candidate[0] - diff[0], candidate[1] - diff[1])
+        candidate = (r2, c2)
+        while is_in_bounds(candidate, grid_dimensions):
+            yield candidate
+            candidate = (candidate[0] + diff[0], candidate[1] + diff[1])
+
+
+def is_in_bounds(antinode: tuple[int, int],
+                 grid_dimensions: tuple[int, int]) -> bool:
     '''
     Check if the antinode is within the grid dimensions.
     '''
@@ -68,15 +85,24 @@ def part_one(raw_input: str) -> int:
     Find the number of valid antinodes for the given grid.
     '''
     antenna_pairs, grid_dimensions = load_grid(raw_input)
-    return len({antinode for antinode in generate_candidate_antinodes(
+    return len({antinode for antinode in generate_candidate_antinodes_part_one(
         antenna_pairs)
-                if is_valid_antinode(antinode, grid_dimensions)})
+                if is_in_bounds(antinode, grid_dimensions)})
+
+def part_two(raw_input: str) -> int:
+    '''
+    Find the number of valid antinodes for the given grid.
+    '''
+    antenna_pairs, grid_dimensions = load_grid(raw_input)
+    return len({antinode for antinode in generate_candidate_antinodes_part_two(
+        antenna_pairs, grid_dimensions)})
 
 
 def main():
     with open('../resources/Day8Input.txt') as f:
         raw_input = f.read()
     print(f"part one: {part_one(raw_input)}")
+    print(f"part two: {part_two(raw_input)}")
 
 
 if __name__ == '__main__':
