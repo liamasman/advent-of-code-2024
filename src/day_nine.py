@@ -20,8 +20,8 @@ def create_memory_view_from_disk_map(raw_input: str) -> list:
 
 
 def generate_defragged_memory_block_part_one(memory_view: list[int]) -> \
-Generator[int,
-None, None]:
+        Generator[int,
+        None, None]:
     forward_pointer = 0
     backward_pointer = len(memory_view) - 1
     while forward_pointer <= backward_pointer:
@@ -36,17 +36,21 @@ None, None]:
             backward_pointer -= 1
 
 
-def has_enough_space_for_size(memory_view, size_of_block, start_index):
-    for i in range(size_of_block):
+def get_size_of_space(memory_view: list[Optional[int]], start_index: int,
+                      max_size: int) -> int:
+    size = 0
+    for i in range(max_size):
         if memory_view[start_index + i] is not None:
-            return False
-    return True
+            return size
+        else:
+            size += 1
+    return size
 
 
 def create_defragged_memory_block_part_two(memory_view: list[Optional[int]]):
-    last_seen_index_with_space_for_size_i: list[int] = [0] * 9
+    next_index_to_check_for_size: list[int] = [0] * 9
     back_pointer = len(memory_view) - 1
-    while back_pointer >= min(last_seen_index_with_space_for_size_i):
+    while back_pointer >= min(next_index_to_check_for_size):
         if memory_view[back_pointer] is None:
             back_pointer -= 1
             continue
@@ -59,41 +63,33 @@ def create_defragged_memory_block_part_two(memory_view: list[Optional[int]]):
 
         size_of_block = end_of_block - start_of_block + 1
 
-        if (last_seen_index_with_space_for_size_i[size_of_block - 1] >=
+        if (next_index_to_check_for_size[size_of_block - 1] >=
                 start_of_block):
             continue
 
         found_space = False
         # Find next large-enough empty space
-        while last_seen_index_with_space_for_size_i[
-            size_of_block - 1] < start_of_block:
-            if memory_view[last_seen_index_with_space_for_size_i[
-                size_of_block - 1]] is None:
-                if has_enough_space_for_size(memory_view, size_of_block,
-                                             last_seen_index_with_space_for_size_i[
-                                                     size_of_block - 1]):
-                    found_space = True
-                    break
-                else:
-                    last_seen_index_with_space_for_size_i[size_of_block - 1] += 1
-                    for _ in range(1, size_of_block):
-                        if memory_view[last_seen_index_with_space_for_size_i[
-                            size_of_block - 1]] is None:
-                            last_seen_index_with_space_for_size_i[size_of_block
-                                                                  - 1] += 1
-                        else:
-                            break
+        while (not found_space and next_index_to_check_for_size[
+            size_of_block - 1] <
+               start_of_block):
+            size_of_space = get_size_of_space(memory_view,
+                                              next_index_to_check_for_size[
+                                                  size_of_block - 1],
+                                              size_of_block)
+            if size_of_space == size_of_block:
+                found_space = True
             else:
-                last_seen_index_with_space_for_size_i[size_of_block - 1] += 1
+                next_index_to_check_for_size[size_of_block - 1] += (
+                    max(size_of_space, 1))
 
         if found_space:
             # Move block to empty space
             for i in range(size_of_block):
-                memory_view[last_seen_index_with_space_for_size_i[
-                                size_of_block - 1] + i] = memory_view[
-                    start_of_block + i]
+                memory_view[
+                    next_index_to_check_for_size[size_of_block - 1] + i] = \
+                memory_view[start_of_block + i]
                 memory_view[start_of_block + i] = None
-            last_seen_index_with_space_for_size_i[
+            next_index_to_check_for_size[
                 size_of_block - 1] += size_of_block
 
 
