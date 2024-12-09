@@ -90,9 +90,9 @@ def part_one(raw_input: str) -> int:
 
 
 def part_two(raw_input: str) -> int:
-    memoryview = create_memory_view_from_disk_map(raw_input)
-    create_defragged_memory_block_part_two(memoryview)
-    return calculate_checksum(memoryview)
+    memory_view = create_memory_view_from_disk_map(raw_input)
+    create_defragged_memory_block_part_two(memory_view)
+    return calculate_checksum(memory_view)
 
 
 def main():
