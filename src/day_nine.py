@@ -42,7 +42,7 @@ def has_enough_space_for_size(memory_view, size_of_block, start_index):
 
 
 def create_defragged_memory_block_part_two(memory_view: list[Optional[int]]):
-    last_seen_index_with_space_for_size_i: list[int] = [0] * 10
+    last_seen_index_with_space_for_size_i: list[int] = [0] * 9
     back_pointer = len(memory_view) - 1
     while back_pointer >= min(last_seen_index_with_space_for_size_i):
         if memory_view[back_pointer] is None:
@@ -57,16 +57,16 @@ def create_defragged_memory_block_part_two(memory_view: list[Optional[int]]):
 
         size_of_block = end_of_block - start_of_block + 1
 
-        if (last_seen_index_with_space_for_size_i[size_of_block] >=
+        if (last_seen_index_with_space_for_size_i[size_of_block - 1] >=
                 start_of_block):
             continue
 
         found_space = False
         # Find next large-enough empty space
-        while last_seen_index_with_space_for_size_i[size_of_block] < start_of_block:
+        while last_seen_index_with_space_for_size_i[size_of_block - 1] < start_of_block:
             if not has_enough_space_for_size(memory_view, size_of_block,
-                                         last_seen_index_with_space_for_size_i[size_of_block]):
-                last_seen_index_with_space_for_size_i[size_of_block] += 1
+                                         last_seen_index_with_space_for_size_i[size_of_block - 1]):
+                last_seen_index_with_space_for_size_i[size_of_block - 1] += 1
             else:
                 found_space = True
                 break
@@ -74,9 +74,9 @@ def create_defragged_memory_block_part_two(memory_view: list[Optional[int]]):
         if found_space:
             # Move block to empty space
             for i in range(size_of_block):
-                memory_view[last_seen_index_with_space_for_size_i[size_of_block] + i] = memory_view[start_of_block + i]
+                memory_view[last_seen_index_with_space_for_size_i[size_of_block - 1] + i] = memory_view[start_of_block + i]
                 memory_view[start_of_block + i] = None
-            last_seen_index_with_space_for_size_i[size_of_block] += size_of_block
+            last_seen_index_with_space_for_size_i[size_of_block - 1] += size_of_block
 
 
 def calculate_checksum(memory_view: list[int]) -> int:
