@@ -1,3 +1,4 @@
+import time
 from typing import Generator, Optional
 
 
@@ -18,7 +19,8 @@ def create_memory_view_from_disk_map(raw_input: str) -> list:
     return result
 
 
-def generate_defragged_memory_block_part_one(memory_view: list[int]) -> Generator[int,
+def generate_defragged_memory_block_part_one(memory_view: list[int]) -> \
+Generator[int,
 None, None]:
     forward_pointer = 0
     backward_pointer = len(memory_view) - 1
@@ -50,7 +52,7 @@ def create_defragged_memory_block_part_two(memory_view: list[Optional[int]]):
             continue
 
         end_of_block = back_pointer
-        while back_pointer >= 0 and memory_view[back_pointer] == memory_view[\
+        while back_pointer >= 0 and memory_view[back_pointer] == memory_view[ \
                 end_of_block]:
             back_pointer -= 1
         start_of_block = back_pointer + 1
@@ -63,24 +65,41 @@ def create_defragged_memory_block_part_two(memory_view: list[Optional[int]]):
 
         found_space = False
         # Find next large-enough empty space
-        while last_seen_index_with_space_for_size_i[size_of_block - 1] < start_of_block:
-            if not has_enough_space_for_size(memory_view, size_of_block,
-                                         last_seen_index_with_space_for_size_i[size_of_block - 1]):
-                last_seen_index_with_space_for_size_i[size_of_block - 1] += 1
+        while last_seen_index_with_space_for_size_i[
+            size_of_block - 1] < start_of_block:
+            if memory_view[last_seen_index_with_space_for_size_i[
+                size_of_block - 1]] is None:
+                if has_enough_space_for_size(memory_view, size_of_block,
+                                             last_seen_index_with_space_for_size_i[
+                                                     size_of_block - 1]):
+                    found_space = True
+                    break
+                else:
+                    last_seen_index_with_space_for_size_i[size_of_block - 1] += 1
+                    for _ in range(1, size_of_block):
+                        if memory_view[last_seen_index_with_space_for_size_i[
+                            size_of_block - 1]] is None:
+                            last_seen_index_with_space_for_size_i[size_of_block
+                                                                  - 1] += 1
+                        else:
+                            break
             else:
-                found_space = True
-                break
+                last_seen_index_with_space_for_size_i[size_of_block - 1] += 1
 
         if found_space:
             # Move block to empty space
             for i in range(size_of_block):
-                memory_view[last_seen_index_with_space_for_size_i[size_of_block - 1] + i] = memory_view[start_of_block + i]
+                memory_view[last_seen_index_with_space_for_size_i[
+                                size_of_block - 1] + i] = memory_view[
+                    start_of_block + i]
                 memory_view[start_of_block + i] = None
-            last_seen_index_with_space_for_size_i[size_of_block - 1] += size_of_block
+            last_seen_index_with_space_for_size_i[
+                size_of_block - 1] += size_of_block
 
 
 def calculate_checksum(memory_view: list[int]) -> int:
-    return sum([index * value for index, value in enumerate(memory_view) if value is not None])
+    return sum([index * value for index, value in enumerate(memory_view) if
+                value is not None])
 
 
 def part_one(raw_input: str) -> int:
@@ -98,8 +117,13 @@ def part_two(raw_input: str) -> int:
 def main():
     with open("../resources/Day9Input.txt") as f:
         raw_input = f.read()
-    print(f"Part One: {part_one(raw_input)}")
-    print(f"Part Two: {part_two(raw_input)}")
+        part_one_start = time.time()
+        part_one_result = part_one(raw_input)
+        part_one_end = time.time()
+        part_two_result = part_two(raw_input)
+        part_two_end = time.time()
+    print(f"Part One: {part_one_result} ({part_one_end - part_one_start} s)")
+    print(f"Part Two: {part_two_result} ({part_two_end - part_one_end} s)")
 
 
 if __name__ == "__main__":
