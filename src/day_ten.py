@@ -1,5 +1,10 @@
+def parse_char(char):
+    return -1 if char == "." else int(char)
+
+
 def parse_input(raw_input: str) -> list[list[int]]:
-    return [[int(char) for char in line] for line in raw_input.split("\n")]
+    return [[parse_char(char) for char in line] for line in raw_input.split(
+        "\n")]
 
 
 def get_trailheads(topological_map: list[list[int]]) -> set[tuple[int, int]]:
@@ -58,10 +63,29 @@ def score_trailhead(trailhead: tuple[int, int],
     return len(found_endpoints)
 
 
+def count_trails(trailhead: tuple[int, int], topological_map: list[list[int]]):
+    found_routes = 0
+    next_routes = get_next_steps(trailhead, topological_map)
+    while not len(next_routes) == 0:
+        next_route = next_routes.pop()
+        if value_of(next_route, topological_map) == 9:
+            found_routes += 1
+        else:
+            next_routes.extend(get_next_steps(next_route, topological_map))
+    return found_routes
+
+
 def part_one(raw_input):
     topological_map: list[list[int]] = parse_input(raw_input)
     trailheads: set[tuple[int, int]] = get_trailheads(topological_map)
     return sum(score_trailhead(trailhead, topological_map) for trailhead in
+               trailheads)
+
+
+def part_two(raw_input):
+    topological_map: list[list[int]] = parse_input(raw_input)
+    trailheads: set[tuple[int, int]] = get_trailheads(topological_map)
+    return sum(count_trails(trailhead, topological_map) for trailhead in
                trailheads)
 
 
@@ -70,6 +94,7 @@ def main():
         raw_input = f.read()
 
     print(f"Part one: {part_one(raw_input)}")
+    print(f"Part two: {part_two(raw_input)}")
 
 
 if __name__ == "__main__":
