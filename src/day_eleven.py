@@ -48,7 +48,7 @@ int] = None) -> dict[int, int]:
         new_counts = {}
 
     for num, count in input_counts.items():
-        new_nums = step_stone(num)
+        new_nums = blink_stone(num)
         for new_num in new_nums:
             new_counts[new_num] = new_counts.get(new_num, 0) + count
 
@@ -56,7 +56,7 @@ int] = None) -> dict[int, int]:
 
 
 @cache
-def step_stone(num: int) -> tuple[int] | tuple[int, int]:
+def blink_stone(num: int) -> tuple[int] | tuple[int, int]:
     if num == 0:
         return (1, )
     if (new_nums := split(num)) is not None:
