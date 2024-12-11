@@ -2,6 +2,13 @@ import time
 from math import log10, floor
 from typing import Optional
 
+POWERS_OF_TEN = [
+    1, 10, 100, 1000, 10000, 100000, 1000000, 10000000,
+    100000000, 1000000000, 10000000000, 100000000000,
+    1000000000000, 10000000000000, 100000000000000,
+    1000000000000000
+]
+
 
 def part_one(raw_input: str) -> int:
     counts = get_start_map(raw_input)
@@ -50,8 +57,8 @@ def split(num:int) -> Optional[tuple[int, int]]:
     if length % 2 != 0:
         return None
     half = length // 2
-    first = num // 10 ** half
-    second = num % 10 ** half
+    first = num // POWERS_OF_TEN[half]
+    second = num % POWERS_OF_TEN[half]
     return first, second
 
 
