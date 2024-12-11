@@ -34,8 +34,9 @@ def run_steps(input_map: dict[int, int], steps: int) -> dict[int, int]:
     counts = input_map
     secondary_map = {}
     for _ in range(steps):
-        individual_step(counts, new_counts=secondary_map)
-        counts, secondary_map = secondary_map, counts
+        counts, secondary_map = (individual_step(counts,
+                                               new_counts=secondary_map),
+                                 counts)
         secondary_map.clear()
     return counts
 
