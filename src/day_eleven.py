@@ -41,18 +41,17 @@ def run_steps(input_map: dict[int, int], steps: int) -> dict[int, int]:
 
 
 def individual_step(input_counts: dict[int, int], new_counts: dict[int,
-int] = None) -> (
-        dict)[
-    int,
-int]:
+int] = None) -> dict[int, int]:
     if new_counts is None:
         new_counts = {}
+
     for num, count in input_counts.items():
         if num == 0:
             new_counts[1] = new_counts.get(1, 0) + count
         elif (new_nums := split(num)) is not None:
-            for new_num in new_nums:
-                new_counts[new_num] = new_counts.get(new_num, 0) + count
+            num_a, num_b = new_nums
+            new_counts[num_a] = new_counts.get(num_a, 0) + count
+            new_counts[num_b] = new_counts.get(num_b, 0) + count
         else:
             new_num = num * 2024
             new_counts[new_num] = new_counts.get(new_num, 0) + count
@@ -60,7 +59,7 @@ int]:
     return new_counts
 
 
-def split(num:int) -> Optional[tuple[int, int]]:
+def split(num: int) -> Optional[tuple[int, int]]:
     length = floor(log10(num)) + 1
     if length % 2 != 0:
         return None
