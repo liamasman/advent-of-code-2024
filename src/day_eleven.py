@@ -34,16 +34,19 @@ def run_steps(input_map: dict[int, int], steps: int) -> dict[int, int]:
     counts = input_map
     secondary_map = {}
     for _ in range(steps):
-        individual_step(counts, secondary_map)
+        individual_step(counts, new_counts=secondary_map)
         counts, secondary_map = secondary_map, counts
         secondary_map.clear()
     return counts
 
 
 def individual_step(input_counts: dict[int, int], new_counts: dict[int,
-                                                              int]) -> dict[
+int] = None) -> (
+        dict)[
     int,
 int]:
+    if new_counts is None:
+        new_counts = {}
     for num, count in input_counts.items():
         if num == 0:
             new_counts[1] = new_counts.get(1, 0) + count
