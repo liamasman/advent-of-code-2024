@@ -62,7 +62,7 @@ def main():
     part_two_result = part_two(raw_input)
     end_time = time.time()
     print(f"Part One: {part_one_result} ("
-          f"{(mid_time - start_time) * 1000:.10f}ms)")
+          f"{(mid_time - start_time) * 1000:.2f}ms)")
     print(f"Part Two: {part_two_result} ("
           f"{(end_time - mid_time) * 1000:.1f}ms)")
 
