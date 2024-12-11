@@ -1,5 +1,4 @@
-from day_eleven import part_one, get_start_map, individual_step, \
-    is_even_digits, split
+from day_eleven import part_one, get_start_map, individual_step, split
 
 
 class TestPartOne:
@@ -123,43 +122,6 @@ class TestIndividualStep:
                 22: 9
             }
             assert individual_step(map_input) == expected
-
-
-class TestIsEvenDigits:
-    def test_single_digit(self):
-        assert is_even_digits(1) == False
-        assert is_even_digits(2) == False
-        assert is_even_digits(9) == False
-
-
-    def test_double_digit(self):
-        assert is_even_digits(10) == True
-        assert is_even_digits(11) == True
-        assert is_even_digits(99) == True
-
-
-    def test_triple_digit(self):
-        assert is_even_digits(100) == False
-        assert is_even_digits(101) == False
-        assert is_even_digits(999) == False
-
-
-    def test_four_digit(self):
-        assert is_even_digits(1000) == True
-        assert is_even_digits(1001) == True
-        assert is_even_digits(9999) == True
-
-
-    def test_five_digit(self):
-        assert is_even_digits(10000) == False
-        assert is_even_digits(10001) == False
-        assert is_even_digits(99999) == False
-
-
-    def test_six_digit(self):
-        assert is_even_digits(100000) == True
-        assert is_even_digits(100001) == True
-        assert is_even_digits(999999) == True
 
 
 class TestSplit:

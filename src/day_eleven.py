@@ -1,4 +1,7 @@
 import time
+from math import log10, floor
+from typing import Optional
+
 
 def part_one(raw_input: str) -> int:
     counts = get_start_map(raw_input)
@@ -32,8 +35,7 @@ def individual_step(input_counts: dict[int, int]) -> dict[int, int]:
     for num, count in input_counts.items():
         if num == 0:
             new_counts[1] = new_counts.get(1, 0) + count
-        elif is_even_digits(num):
-            new_nums: tuple[int, int] = split(num)
+        elif (new_nums := split(num)) is not None:
             for new_num in new_nums:
                 new_counts[new_num] = new_counts.get(new_num, 0) + count
         else:
@@ -43,14 +45,14 @@ def individual_step(input_counts: dict[int, int]) -> dict[int, int]:
     return new_counts
 
 
-def is_even_digits(num: int) -> bool:
-    return len(str(num)) % 2 == 0
-
-
-def split(num:int) -> tuple[int, int]:
-    str_num = str(num)
-    new_length = len(str_num) // 2
-    return int(str_num[:new_length]), int(str_num[new_length:])
+def split(num:int) -> Optional[tuple[int, int]]:
+    length = floor(log10(num)) + 1
+    if length % 2 != 0:
+        return None
+    half = length // 2
+    first = num // 10 ** half
+    second = num % 10 ** half
+    return first, second
 
 
 def main():
