@@ -1,4 +1,5 @@
 import time
+from functools import cache
 from math import log10, floor
 from typing import Optional
 
@@ -47,17 +48,21 @@ int] = None) -> dict[int, int]:
         new_counts = {}
 
     for num, count in input_counts.items():
-        if num == 0:
-            new_counts[1] = new_counts.get(1, 0) + count
-        elif (new_nums := split(num)) is not None:
-            num_a, num_b = new_nums
-            new_counts[num_a] = new_counts.get(num_a, 0) + count
-            new_counts[num_b] = new_counts.get(num_b, 0) + count
-        else:
-            new_num = num * 2024
+        new_nums = step_stone(num)
+        for new_num in new_nums:
             new_counts[new_num] = new_counts.get(new_num, 0) + count
 
     return new_counts
+
+
+@cache
+def step_stone(num: int) -> tuple[int] | tuple[int, int]:
+    if num == 0:
+        return (1, )
+    if (new_nums := split(num)) is not None:
+        num_a, num_b = new_nums
+        return num_a, num_b
+    return (num * 2024, )
 
 
 def split(num: int) -> Optional[tuple[int, int]]:
