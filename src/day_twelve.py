@@ -50,23 +50,31 @@ def build_region(grid: Grid, start_cell: Location) -> Region:
 
 
 def get_price_part_one(region: Region) -> int:
-    perimeter = 0
-    for cell in region:
-        for neighbour in get_cardinal_neighbours(cell):
-            if neighbour not in region:
-                perimeter += 1
+    perimeter = calculate_perimeter(region)
     area = len(region)
     return area * perimeter
 
 
 def get_price_part_two(region: Region) -> int:
-    sides = 0
-
-    for cell in region:
-        sides += count_corners(region, cell)  # Each corner means a new side
-
+    sides = count_sides(region)
     area = len(region)
     return area * sides
+
+
+def calculate_perimeter(region):
+    perimeter = 0
+    for cell in region:
+        for neighbour in get_cardinal_neighbours(cell):
+            if neighbour not in region:
+                perimeter += 1
+    return perimeter
+
+
+def count_sides(region):
+    sides = 0
+    for cell in region:
+        sides += count_corners(region, cell)  # Each corner means a new side
+    return sides
 
 
 def count_corners(region: Region, cell: Location) -> int:
