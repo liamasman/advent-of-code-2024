@@ -1,7 +1,6 @@
 import time
 from typing import Generator
 
-
 CellContent = str
 Grid = list[CellContent]
 Location = tuple[int, int]
@@ -64,7 +63,7 @@ def get_price_part_two(region: Region) -> int:
     sides = 0
 
     for cell in region:
-        sides += count_corners(region, cell) # Each corner means a new side
+        sides += count_corners(region, cell)  # Each corner means a new side
 
     area = len(region)
     return area * sides
@@ -113,6 +112,7 @@ def count_corners(region: Region, cell: Location) -> int:
             corners += 1
     return corners
 
+
 def get_cell(grid: Grid, start_cell: Location) -> CellContent:
     return grid[start_cell[0]][start_cell[1]]
 
@@ -145,8 +145,10 @@ def main():
     mid_time = time.time()
     part_two_result = part_two(raw_input)
     end_time = time.time()
-    print(f"Part One: {part_one_result} ({(mid_time - start_time)*1000:.2f} ms)")
-    print(f"Part Two: {part_two_result} ({(end_time - mid_time)*1000:.2f} ms)")
+    print(f"Part One: {part_one_result} ("
+          f"{(mid_time - start_time) * 1000:.2f} ms)")
+    print(f"Part Two: {part_two_result} ({(end_time - mid_time) * 1000:.2f} "
+          f"ms)")
 
 
 if __name__ == "__main__":
