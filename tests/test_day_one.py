@@ -1,79 +1,73 @@
-import unittest
-
 from src.day_one import part_one, part_two
 
 
-class DayOnePartOneCase(unittest.TestCase):
+class TestDayOnePartOneCase:
     def test_given_test_case(self):
-        input = [
+        raw_input = [
             "3   4"
             "4   3",
             "2   5",
             "1   3",
             "3   9",
             "3   3"]
-        self.assertEqual(11, part_one(input))
+        assert part_one(raw_input) == 11
 
     def test_when_distance_is_negative(self):
-        input = [
+        raw_input = [
             "3   4",
             "3   4"]
-        self.assertEqual(2, part_one(input))
+        assert part_one(raw_input) == 2
 
     def test_sorting_the_lists_gives_correct_result(self):
-        input = [
+        raw_input = [
             "3   4",
             "4   3"]
-        self.assertEqual(0, part_one(input))
+        assert part_one(raw_input) == 0
 
 
-class DayOnePartTwoCase(unittest.TestCase):
+class TestDayOnePartTwoCase:
     def test_given_test_case(self):
-        input = [
+        raw_input = [
             "3   4",
             "4   3",
             "2   5",
             "1   3",
             "3   9",
             "3   3"]
-        self.assertEqual(31, part_two(input))
+        assert part_two(raw_input) == 31
 
     def test_single_value_in_each_list(self):
-        input = [
+        raw_input = [
             "3   3"]
-        self.assertEqual(3, part_two(input))
+        assert part_two(raw_input) == 3
 
     def test_single_value_does_not_appear_in_second_list(self):
-        input = [
+        raw_input = [
             "3   4"]
-        self.assertEqual(0, part_two(input))
+        assert part_two(raw_input) == 0
 
     def test_single_value_appears_twice_in_second_list(self):
-        input = [
+        raw_input = [
             "3   3",
             "4   3"]
-        self.assertEqual(6, part_two(input))
+        assert part_two(raw_input) == 6
 
     def test_single_value_appers_twice_in_first_list(self):
-        input = [
+        raw_input = [
             "3   4",
             "3   3"]
-        self.assertEqual(6, part_two(input))
+        assert part_two(raw_input) == 6
 
     def test_single_value_appears_twice_in_both_lists(self):
-        input = [
+        raw_input = [
             "3   3",
             "3   3"]
-        self.assertEqual(12, part_two(input))
+        assert part_two(raw_input) == 12
 
     def test_two_values_each_twice_in_second_list(self):
-        input = [
+        raw_input = [
             "3   3",
             "4   3",
             "5   4",
             "6   4"]
-        self.assertEqual(14, part_two(input))
-
-
-if __name__ == '__main__':
-    unittest.main()
+        assert part_two(raw_input) == 14
