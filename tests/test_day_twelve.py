@@ -1,4 +1,5 @@
-from day_twelve import part_one, generate_regions, get_price
+from day_twelve import part_one, generate_regions, get_price_part_one, \
+    part_two, get_price_part_two
 
 
 class TestPartOne:
@@ -33,6 +34,40 @@ MMMISSJEEE"""
         assert part_one(raw_input) == 1930
 
 
+class TestPartTwo:
+    def test_given_example_one(self):
+        raw_input = """EEEEE
+EXXXX
+EEEEE
+EXXXX
+EEEEE"""
+        assert part_two(raw_input) == 236
+
+
+    def test_given_example_two(self):
+        raw_input = """AAAAAA
+AAABBA
+AAABBA
+ABBAAA
+ABBAAA
+AAAAAA"""
+        assert part_two(raw_input) == 368
+
+
+    def test_given_example_three(self):
+        raw_input = """RRRRIICCFF
+RRRRIICCCF
+VVRRRCCFFF
+VVRCCCJFFF
+VVVVCJJCFE
+VVIVCCJJEE
+VVIIICJJEE
+MIIIIIJJEE
+MIIISIJEEE
+MMMISSJEEE"""
+        assert part_two(raw_input) == 1206
+
+
 def assert_regions_equal(regions, expected):
     expected = [set(region) for region in expected]
     regions = [set(region) for region in regions]
@@ -44,6 +79,7 @@ def assert_regions_equal(regions, expected):
         assert region in regions, (f"Missing region in regions.\n"
                                    f"Expected: {expected}, Actual: "
                                    f"{regions}\nMissing region: {region}")
+
 
 class TestGenerateRegions:
     def test_single_line_one_region(self):
@@ -144,20 +180,20 @@ class TestGenerateRegions:
         assert_regions_equal(regions, expected)
 
 
-class TestGetPrice:
+class TestGetPricePartOne:
     def test_get_price_of_single_cell(self):
         region = [(0, 0)]
         #perimeter = 4
         #area = 1
         #price = 1 * 4 = 4
-        assert get_price(region) == 4
+        assert get_price_part_one(region) == 4
 
     def test_get_price_of_line(self):
         region = [(0, 0), (0, 1), (0, 2), (0, 3), (0, 4)]
         #perimeter = 12
         #area = 5
         #price = 5 * 12 = 60
-        assert get_price(region) == 60
+        assert get_price_part_one(region) == 60
 
 
     def test_get_price_of_square(self):
@@ -166,7 +202,7 @@ class TestGetPrice:
         #perimeter = 8
         #area = 4
         #price = 4 * 8 = 32
-        assert get_price(region) == 32
+        assert get_price_part_one(region) == 32
 
 
     def test_get_price_of_t_shape(self):
@@ -175,7 +211,7 @@ class TestGetPrice:
         #perimeter = 10
         #area = 4
         #price = 4 * 10 = 40
-        assert get_price(region) == 40
+        assert get_price_part_one(region) == 40
 
 
     def test_get_price_of_donut(self):
@@ -187,4 +223,107 @@ class TestGetPrice:
         #perimeter = 32
         #area = 16
         #price = 16 * 32 = 512
-        assert get_price(region) == 512
+        assert get_price_part_one(region) == 512
+
+
+class TestGetPricePartTwo:
+    def test_price_single_cell(self):
+        region = [(0, 0)]
+        #area = 1
+        #sides = 4
+        #price = 1 * 4 = 4
+        assert get_price_part_two(region) == 4
+
+
+    def test_price_single_line(self):
+        region = [(0, 0), (0, 1), (0, 2), (0, 3), (0, 4)]
+        #area = 5
+        #sides = 4
+        #price = 5 * 4 = 20
+        assert get_price_part_two(region) == 20
+
+
+    def test_price_square(self):
+        region = [(0, 0), (0, 1),
+                  (1, 0), (1, 1)]
+        #area = 4
+        #sides = 4
+        #price = 4 * 4 = 16
+        assert get_price_part_two(region) == 16
+
+
+    def test_price_t_shape(self):
+        region = [(0, 0), (0, 1), (0, 2),
+                          (1, 1)]
+        #area = 4
+        #sides = 8
+        #price = 4 * 8 = 32
+        assert get_price_part_two(region) == 32
+
+
+    def test_price_longer_t_shape(self):
+        region = [(0, 0), (0, 1), (0, 2),
+                          (1, 1),
+                          (2, 1)]
+        #area = 5
+        #sides = 8
+        #price = 5 * 8 = 40
+        assert get_price_part_two(region) == 40
+
+
+    def test_price_l_shape(self):
+        region = [(0, 0), (0, 1),
+                          (1, 1),
+                          (2, 1)]
+        #area = 4
+        #sides = 6
+        #price = 4 * 6 = 24
+        assert get_price_part_two(region) == 24
+
+
+    def test_price_plus(self):
+        region = [        (0, 1),
+                  (1, 0), (1, 1), (1, 2),
+                          (2, 1)]
+        #area = 5
+        #sides = 12
+        #price = 5 * 12 = 60
+        assert get_price_part_two(region) == 60
+
+
+    def test_price_donut(self):
+        region = [(0, 0), (0, 1), (0, 2), (0, 3), (0, 4),
+                  (1, 0),                         (1, 4),
+                  (2, 0),                         (2, 4),
+                  (3, 0),                         (3, 4),
+                  (4, 0), (4, 1), (4, 2), (4, 3), (4, 4)]
+        #area = 16
+        #sides = 8
+        #price = 16 * 8 =
+        assert get_price_part_two(region) == 128
+
+
+    def test_complex_shape_no_cavities(self):
+        region = [(0, 0),         (0, 2), (0, 3), (0, 4),
+                  (1, 0),         (1, 2),
+                  (2, 0), (2, 1), (2, 2), (2, 3), (2, 4),
+                                  (3, 2),         (3, 4),
+                  (4, 0), (4, 1), (4, 2),         (4, 4)]
+        #area = 17
+        #sides = 20
+        #price = 17 * 20 = 340
+        assert get_price_part_two(region) == 340
+
+
+    def test_complex_shape_three_cavities(self):
+        region = [(0, 0),         (0, 2), (0, 3), (0, 4), (0, 5),
+                  (1, 0),         (1, 2),                 (1, 5), (1, 6),
+                  (2, 0), (2, 1), (2, 2), (2, 3),         (2, 5),
+                  (3, 0),                 (3, 3), (3, 4), (3, 5),
+                  (4, 0), (4, 1), (4, 2), (4, 3), (4, 4), (4, 5), (4, 6),
+                  (5, 0),         (5, 2),         (5, 4), (5, 5), (5, 6),
+                  (6, 0),         (6, 2), (6, 3), (6, 4), (6, 5)]
+        #area = 35
+        #sides = 20 + 6 + 4 + 4 = 34
+        #price = 35 * 34 = 400
+        assert get_price_part_two(region) == 1190
