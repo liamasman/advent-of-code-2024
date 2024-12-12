@@ -60,8 +60,7 @@ def blink_stone(num: int) -> tuple[int] | tuple[int, int]:
     if num == 0:
         return (1, )
     if (new_nums := split(num)) is not None:
-        num_a, num_b = new_nums
-        return num_a, num_b
+        return new_nums
     return (num * 2024, )
 
 
