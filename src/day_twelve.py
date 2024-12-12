@@ -69,14 +69,6 @@ def get_price_part_two(region: Region) -> int:
     return area * sides
 
 
-def get_diagonal_neighbours(cell) -> Generator[Location, None, None]:
-    r, c = cell
-    yield r - 1, c - 1
-    yield r - 1, c + 1
-    yield r + 1, c - 1
-    yield r + 1, c + 1
-
-
 def count_corners(region: Region, cell: Location) -> int:
     '''
     Count the number of fence corners this cell creates in the region
@@ -134,6 +126,14 @@ def get_cardinal_neighbours(cell: Location, grid: Grid | None = None) -> (
         yield r + 1, c  # Down
         yield r, c - 1  # Left
         yield r, c + 1  # Right
+
+
+def get_diagonal_neighbours(cell) -> Generator[Location, None, None]:
+    r, c = cell
+    yield r - 1, c - 1
+    yield r - 1, c + 1
+    yield r + 1, c - 1
+    yield r + 1, c + 1
 
 
 def main():
