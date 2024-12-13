@@ -2,7 +2,7 @@ import time
 from typing import Generator
 
 CellContent = str
-Grid = list[CellContent]
+Grid = list[str]
 Location = tuple[int, int]
 Region = list[Location]
 
