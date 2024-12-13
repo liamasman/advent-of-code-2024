@@ -6,6 +6,10 @@ def part_one(raw_input: str) -> int:
     inputs = parse_input(raw_input)
     return sum([price_inputs(calculate_required_inputs(*input)) for input in inputs])
 
+def part_two(raw_input: str) -> int:
+    inputs = parse_input(raw_input)
+    return sum([price_inputs(calculate_required_inputs(*modify_input_for_part_two(input))) for input in inputs])
+
 def parse_input(raw_input: str) -> list[tuple[Coordinates, Coordinates, Coordinates]]:
     matcher = re.compile(r"Button A: X\+(\d+), Y\+(\d+)\nButton B: X\+(\d+), Y\+(\d+)\nPrize: X=(\d+), Y=(\d+)")
     sections = raw_input.strip().split("\n\n")
@@ -16,6 +20,9 @@ def parse_input(raw_input: str) -> list[tuple[Coordinates, Coordinates, Coordina
                         (int(matches.group(3)), int(matches.group(4))),
                         (int(matches.group(5)), int(matches.group(6)))))
     return results
+
+def modify_input_for_part_two(config: tuple[Coordinates, Coordinates, Coordinates]) -> tuple[Coordinates, Coordinates, Coordinates]:
+    return config[0], config[1], (config[2][0] + 10000000000000, config[2][1] + 10000000000000)
 
 def calculate_required_inputs(button_a: Coordinates, button_b: Coordinates, prize: Coordinates) -> tuple[int, int] | None:
     x_equation = (button_a[0], button_b[0], prize[0])
@@ -48,6 +55,7 @@ def main():
     with open("../resources/Day13Input.txt") as f:
         raw_input = f.read()
     print(f"Part one: {part_one(raw_input)}")
+    print(f"Part two: {part_two(raw_input)}")
 
 if __name__ == "__main__":
     main()

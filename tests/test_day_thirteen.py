@@ -1,4 +1,4 @@
-from src.day_thirteen import part_one, parse_input, calculate_required_inputs, price_inputs
+from src.day_thirteen import part_one, parse_input, calculate_required_inputs, price_inputs, modify_input_for_part_two
 
 
 class TestPartOne:
@@ -66,3 +66,8 @@ class TestCalculateRequiredInputs:
 class TestPriceInputs:
     def test_price_inputs(self):
         assert price_inputs((80, 40)) == 280
+
+
+def test_modify_input_for_part_two():
+    parsed_config = ((17, 86), (84, 37), (7870, 6450))
+    assert modify_input_for_part_two(parsed_config) == ((17, 86), (84, 37), (10000000007870, 10000000006450))
