@@ -1,13 +1,16 @@
 import time
 
+
 class Robot:
     def __init__(self, position: tuple[int, int], velocity: tuple[int, int]):
         self.position = position
         self.velocity = velocity
 
     def advance(self, time: int, grid_dimensions: tuple[int, int]):
-        self.position = (self.position[0] + self.velocity[0] * time, self.position[1] + self.velocity[1] * time)
-        self.position = (self.position[0] % grid_dimensions[0], self.position[1] % grid_dimensions[1])
+        self.position = (self.position[0] + self.velocity[0] * time,
+                         self.position[1] + self.velocity[1] * time)
+        self.position = (self.position[0] % grid_dimensions[0],
+                         self.position[1] % grid_dimensions[1])
 
     def __str__(self):
         return f"Robot at {self.position} with velocity {self.velocity}"
@@ -16,7 +19,8 @@ class Robot:
         return self.__str__()
 
     def __eq__(self, other):
-        return self.position == other.position and self.velocity == other.velocity
+        return (self.position == other.position and self.velocity ==
+                other.velocity)
 
     def __ne__(self, other):
         return not self.__eq__(other)
@@ -53,8 +57,10 @@ def evaluate_safety_factor(robots, grid_size):
                 bottom_right += 1
     return top_left * top_right * bottom_left * bottom_right
 
+
 def part_one(raw_input: str):
     return run(raw_input, (101, 103), 100)
+
 
 def run(raw_input: str, grid_size: tuple[int, int], steps: int) -> int:
     robots = parse_input(raw_input)
@@ -62,8 +68,22 @@ def run(raw_input: str, grid_size: tuple[int, int], steps: int) -> int:
         robot.advance(steps, grid_size)
     return evaluate_safety_factor(robots, grid_size)
 
+
+def all_different_positions(robots):
+    return len({robot.position for robot in robots}) == len(robots)
+
+
 def part_two(raw_input: str) -> int:
-    pass
+    robots = parse_input(raw_input)
+    grid_size = (101, 103)
+    iterations = 1
+    while True:
+        for robot in robots:
+            robot.advance(1, grid_size)
+        if all_different_positions(robots):
+            return iterations
+        iterations += 1
+
 
 def main():
     with open("../resources/Day14Input.txt") as file:
@@ -71,7 +91,13 @@ def main():
     start_time = time.time()
     part_one_result = part_one(raw_input)
     mid_time = time.time()
-    print(f"Part one: {part_one_result} ({(mid_time - start_time)*1000:.2f} ms)")
+    part_two_result = part_two(raw_input)
+    end_time = time.time()
+    print(f"Part one: {part_one_result} ("
+          f"{(mid_time - start_time) * 1000:.2f} ms)")
+    print(f"Part two: {part_two_result} ({(end_time - mid_time) * 1000:.2f} "
+          f"ms)")
+
 
 if __name__ == "__main__":
     main()

@@ -1,5 +1,6 @@
-from day_fourteen import part_one, Robot, parse_input, evaluate_safety_factor, \
-    run
+from day_fourteen import (part_one, Robot, parse_input,
+                          evaluate_safety_factor, \
+    run)
 
 
 def test_part_one_given_example():
@@ -17,11 +18,13 @@ p=2,4 v=2,-3
 p=9,5 v=-3,-3"""
     assert run(raw_input, (11, 7), 100) == 12
 
+
 def test_parse_input():
     raw_input = """p=0,4 v=3,-3
 p=6,3 v=-1,-3"""
     expected = [Robot((0, 4), (3, -3)), Robot((6, 3), (-1, -3))]
     assert parse_input(raw_input) == expected
+
 
 def test_evaluate_safety_factor():
     # .... .2..
@@ -36,8 +39,9 @@ def test_evaluate_safety_factor():
               Robot((4, 1), (-2, -2)),
               Robot((2, 2), (1, 3)),
               Robot((7, 3), (-1, -2)),
-              Robot((1, 4), (2, 3)),]
+              Robot((1, 4), (2, 3)), ]
     assert evaluate_safety_factor(robots, (9, 5)) == 4
+
 
 class TestRobot:
     def test_advance_one_step(self):
